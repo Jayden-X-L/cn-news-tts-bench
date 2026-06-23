@@ -4,6 +4,9 @@ const copy = {
     summary:
       "An open, target-level benchmark for raw Chinese news TTS. Every system receives the same raw text; no external frontend, LLM rewrite, SSML, or manual fix is allowed in the main track.",
     visualLabel: "Best Strict Auto Accuracy",
+    visualRecords: "records",
+    visualTargets: "targets",
+    visualAsr: "ASR routes",
     metricModels: "TTS systems",
     metricRecords: "Public test records",
     metricTargets: "Auto-evaluable targets",
@@ -46,6 +49,9 @@ const copy = {
     summary:
       "一个开源的 target-level 中文新闻 TTS 评测。所有系统接收同一份原始文本；主榜不允许外部规则前端、LLM 改写、SSML 或人工修正。",
     visualLabel: "最高 Strict Auto Accuracy",
+    visualRecords: "public 条",
+    visualTargets: "targets",
+    visualAsr: "ASR 路线",
     metricModels: "TTS 系统",
     metricRecords: "Public test 条数",
     metricTargets: "可自动评估 targets",
@@ -87,10 +93,26 @@ const copy = {
 
 let currentLang = localStorage.getItem("cnNewsTtsLang") || "zh";
 let leaderboardData = null;
+let animationFrame = null;
 
 function pct(value) {
   if (value === null || value === undefined || Number.isNaN(Number(value))) return "--";
   return (Number(value) * 100).toFixed(1) + "%";
+}
+
+function barWidth(value) {
+  const numeric = Number(value);
+  if (Number.isNaN(numeric)) return "0%";
+  return `${Math.max(0, Math.min(100, numeric * 100)).toFixed(2)}%`;
+}
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
 }
 
 function textFor(row, key) {
@@ -108,6 +130,9 @@ function renderStaticText(data) {
   setText("title", t.title);
   setText("summary", t.summary);
   setText("visual-label", t.visualLabel);
+  setText("visual-records-label", t.visualRecords);
+  setText("visual-targets-label", t.visualTargets);
+  setText("visual-asr-label", t.visualAsr);
   setText("metric-models", t.metricModels);
   setText("metric-records", t.metricRecords);
   setText("metric-targets", t.metricTargets);
@@ -140,9 +165,12 @@ function renderStaticText(data) {
   setText("model-count", data.models.length);
   setText("record-count", data.benchmark.records);
   setText("target-count", data.benchmark.auto_evaluable_targets);
+  setText("visual-records", data.benchmark.records);
+  setText("visual-targets", data.benchmark.auto_evaluable_targets);
+  setText("visual-asr", data.asr_ensemble.length);
 
   const tokenList = document.getElementById("background-tokens");
-  tokenList.innerHTML = t.backgroundTokens.map((token) => `<span>${token}</span>`).join("");
+  tokenList.innerHTML = t.backgroundTokens.map((token) => `<span>${escapeHtml(token)}</span>`).join("");
 
   document.querySelectorAll(".lang-button").forEach((button) => {
     button.classList.toggle("active", button.dataset.lang === currentLang);
@@ -155,30 +183,30 @@ function renderLeaderboard(data) {
   const bestScore = pct(best.strict_auto_accuracy);
   setText("best-score", bestScore);
   setText("visual-score", bestScore);
-  document.getElementById("visual-bar").style.width = bestScore;
+  document.getElementById("visual-bar").style.width = barWidth(best.strict_auto_accuracy);
 
   body.innerHTML = data.models.map((row) => `
     <tr>
-      <td class="rank">${row.rank}</td>
+      <td class="rank">#${escapeHtml(row.rank)}</td>
       <td>
-        <div class="system-name">${textFor(row, "name")}</div>
-        <div class="system-sub">${row.model_id}</div>
+        <div class="system-name">${escapeHtml(textFor(row, "name"))}</div>
+        <div class="system-sub">${escapeHtml(row.model_id)}</div>
       </td>
       <td>
-        <div>${textFor(row, "provider")}</div>
-        <div class="system-sub">${textFor(row, "api_source")} · ${row.model}</div>
+        <div>${escapeHtml(textFor(row, "provider"))}</div>
+        <div class="system-sub">${escapeHtml(textFor(row, "api_source"))} · ${escapeHtml(row.model)}</div>
       </td>
       <td class="score-cell">
         <div class="score-line">
           <span>${pct(row.strict_auto_accuracy)}</span>
-          <div class="mini-bar"><div style="width:${pct(row.strict_auto_accuracy)}"></div></div>
+          <div class="mini-bar"><div style="width:${barWidth(row.strict_auto_accuracy)}"></div></div>
         </div>
       </td>
-      <td>${pct(row.coverage)}</td>
-      <td>${pct(row.resolved_accuracy)}</td>
-      <td class="count-good">${row.correct}</td>
-      <td class="count-bad">${row.wrong}</td>
-      <td class="count-muted">${row.unknown}</td>
+      <td><span class="score-chip">${pct(row.coverage)}</span></td>
+      <td><span class="score-chip">${pct(row.resolved_accuracy)}</span></td>
+      <td class="count-good">${escapeHtml(row.correct)}</td>
+      <td class="count-bad">${escapeHtml(row.wrong)}</td>
+      <td class="count-muted">${escapeHtml(row.unknown)}</td>
     </tr>
   `).join("");
 }
@@ -189,8 +217,8 @@ function renderProtocol(data) {
     <div class="protocol-item">
       <div class="protocol-index">${index + 1}</div>
       <div>
-        <div class="protocol-name">${item.name}</div>
-        <div class="protocol-source">${item.id} · ${item.source}</div>
+        <div class="protocol-name">${escapeHtml(item.name)}</div>
+        <div class="protocol-source">${escapeHtml(item.id)} · ${escapeHtml(item.source)}</div>
       </div>
     </div>
   `).join("");
@@ -201,16 +229,16 @@ function renderModels(data) {
   list.innerHTML = data.models.map((row) => `
     <div class="model-row">
       <div>
-        <strong>${textFor(row, "name")}</strong><br>
-        <span>${row.model_id}</span>
+        <strong>${escapeHtml(textFor(row, "name"))}</strong><br>
+        <span>${escapeHtml(row.model_id)}</span>
       </div>
       <div>
-        <strong>${row.model}</strong><br>
-        <span>${row.voice}</span>
+        <strong>${escapeHtml(row.model)}</strong><br>
+        <span>${escapeHtml(row.voice)}</span>
       </div>
       <div>
-        <strong>${row.sample_rate} Hz</strong><br>
-        <span>${row.audio_format.toUpperCase()}</span>
+        <strong>${escapeHtml(row.sample_rate)} Hz</strong><br>
+        <span>${escapeHtml(String(row.audio_format || "").toUpperCase())}</span>
       </div>
     </div>
   `).join("");
@@ -221,14 +249,90 @@ function renderExamples(data) {
   const grid = document.getElementById("case-grid");
   grid.innerHTML = data.examples.map((item) => `
     <article class="case-card">
-      <div class="case-category">${item[`category_${currentLang}`]}</div>
-      <div class="case-input">${item.input}</div>
+      <div class="case-category">${escapeHtml(item[`category_${currentLang}`] || item.category_en || item.category)}</div>
+      <div class="case-input">${escapeHtml(item.input)}</div>
       <div class="case-meta">
-        <div><b>${t.expected}:</b> ${item[`expected_${currentLang}`]}</div>
-        <div><b>${t.risk}:</b> ${item[`risk_${currentLang}`]}</div>
+        <div><b>${escapeHtml(t.expected)}:</b> ${escapeHtml(item[`expected_${currentLang}`] || item.expected_en)}</div>
+        <div><b>${escapeHtml(t.risk)}:</b> ${escapeHtml(item[`risk_${currentLang}`] || item.risk_en)}</div>
       </div>
     </article>
   `).join("");
+}
+
+function drawSignalCanvas(data) {
+  const canvas = document.getElementById("signal-canvas");
+  const ctx = canvas?.getContext("2d");
+  if (!canvas || !ctx || !data?.models?.length) return;
+
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const scores = data.models.map((row) => Number(row.strict_auto_accuracy || 0));
+  const coverage = data.models.map((row) => Number(row.coverage || 0));
+
+  function resize() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.floor(window.innerWidth * dpr);
+    canvas.height = Math.floor(window.innerHeight * dpr);
+    canvas.style.width = `${window.innerWidth}px`;
+    canvas.style.height = `${window.innerHeight}px`;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function render(time = 0) {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    ctx.clearRect(0, 0, w, h);
+
+    const grid = 42;
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = "rgba(13,148,136,0.12)";
+    for (let x = (time / 80) % grid; x < w; x += grid) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, h);
+      ctx.stroke();
+    }
+    for (let y = 0; y < h; y += grid) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(w, y);
+      ctx.stroke();
+    }
+
+    const baseY = h * 0.28;
+    const amplitude = Math.max(56, h * 0.10);
+    const step = Math.max(90, w / (scores.length + 1));
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "rgba(13,148,136,0.42)";
+    ctx.beginPath();
+    scores.forEach((score, index) => {
+      const x = 54 + index * step;
+      const y = baseY + (1 - score) * amplitude + Math.sin(time / 900 + index) * 8;
+      if (index === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+
+    coverage.forEach((value, index) => {
+      const x = 54 + index * step;
+      const y = baseY + (1 - value) * amplitude + 88;
+      ctx.fillStyle = index === 0 ? "rgba(59,91,219,0.62)" : "rgba(245,158,11,0.42)";
+      ctx.fillRect(x - 2, y - 2, 4, 4);
+    });
+
+    const scanY = (time / 32) % h;
+    ctx.fillStyle = "rgba(59,91,219,0.050)";
+    ctx.fillRect(0, scanY, w, 2);
+
+    if (!reducedMotion) {
+      animationFrame = requestAnimationFrame(render);
+    }
+  }
+
+  resize();
+  window.addEventListener("resize", resize, { passive: true });
+  if (animationFrame) cancelAnimationFrame(animationFrame);
+  render(0);
+  if (!reducedMotion) animationFrame = requestAnimationFrame(render);
 }
 
 function renderAll() {
@@ -238,6 +342,7 @@ function renderAll() {
   renderProtocol(leaderboardData);
   renderModels(leaderboardData);
   renderExamples(leaderboardData);
+  drawSignalCanvas(leaderboardData);
 }
 
 async function loadLeaderboard() {
@@ -247,7 +352,7 @@ async function loadLeaderboard() {
     renderAll();
   } catch (error) {
     document.getElementById("leaderboard-body").innerHTML =
-      `<tr><td colspan="9">Failed to load leaderboard: ${error}</td></tr>`;
+      `<tr><td colspan="9">Failed to load leaderboard: ${escapeHtml(error.message || error)}</td></tr>`;
   }
 }
 

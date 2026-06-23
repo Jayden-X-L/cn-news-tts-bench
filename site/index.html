@@ -3,14 +3,19 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f9fb">
   <title>CN-NewsTTS Bench 中文新闻 TTS 排行榜</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <canvas id="signal-canvas" class="signal-canvas" aria-hidden="true"></canvas>
   <main>
     <header class="hero">
       <div class="hero-copy">
-        <p class="eyebrow">CN-NewsTTS Bench · v0.1 public test</p>
+        <div class="hero-topline">
+          <p class="eyebrow">CN-NewsTTS Bench · v0.1 public test</p>
+          <span class="live-chip">RAW MODEL TRACK</span>
+        </div>
         <h1 id="title">中文新闻裸 TTS 读法准确率排行榜</h1>
         <p class="summary" id="summary"></p>
         <div class="hero-actions" aria-label="language and repository links">
@@ -23,10 +28,26 @@
         </div>
       </div>
       <div class="score-visual" aria-label="Top strict auto accuracy">
-        <span id="visual-score">--</span>
-        <label id="visual-label"></label>
+        <div class="score-shell">
+          <span id="visual-score">--</span>
+          <label id="visual-label"></label>
+        </div>
         <div class="gauge">
           <div id="visual-bar"></div>
+        </div>
+        <div class="signal-readouts" aria-label="benchmark readouts">
+          <div>
+            <span id="visual-records">800</span>
+            <label id="visual-records-label">records</label>
+          </div>
+          <div>
+            <span id="visual-targets">992</span>
+            <label id="visual-targets-label">targets</label>
+          </div>
+          <div>
+            <span id="visual-asr">3</span>
+            <label id="visual-asr-label">ASR routes</label>
+          </div>
         </div>
       </div>
     </header>
