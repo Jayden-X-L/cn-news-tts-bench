@@ -8,6 +8,13 @@ const copy = {
     metricRecords: "Public test records",
     metricTargets: "Auto-evaluable targets",
     metricBest: "Best strict score",
+    backgroundKicker: "Motivation",
+    backgroundTitle: "Why Chinese news TTS needs target-level evaluation",
+    backgroundNote:
+      "The failure is usually not a vague quality issue. A single symbol can flip the spoken meaning.",
+    backgroundBody:
+      "Chinese news is full of scores, hyphenated names, ranges, model numbers, unit symbols, percentages, abbreviations, and mixed-script product names. Human editors read these forms by news convention, but raw TTS systems often normalize them as ordinary text. This benchmark turns those real listening failures into explicit targets and scores whether each target was read correctly.",
+    backgroundTokens: ["96-91", "苏-27", "2028-2030年", "620N·m", "3.5%", "80后", "AI", "小米SU7"],
     leaderboardKicker: "Public leaderboard",
     leaderboardTitle: "v0.1 raw model track",
     leaderboardNote:
@@ -43,6 +50,13 @@ const copy = {
     metricRecords: "Public test 条数",
     metricTargets: "可自动评估 targets",
     metricBest: "最高 strict 分数",
+    backgroundKicker: "背景",
+    backgroundTitle: "为什么中文新闻 TTS 需要 target-level 评测",
+    backgroundNote:
+      "这不是笼统的音质问题。一个符号、单位或连字符读错，就可能改变新闻含义。",
+    backgroundBody:
+      "中文新闻里高频出现比分、连字符、区间、型号、单位符号、百分比、英文缩写和中英数混排名称。人类编辑通常知道这些写法该怎么读，但裸 TTS 很容易按通用文本归一化读错。这个 benchmark 把这些真实收听场景里的错读点变成明确 target，逐个判断模型是否读对。",
+    backgroundTokens: ["96-91", "苏-27", "2028-2030年", "620N·m", "3.5%", "80后", "AI", "小米SU7"],
     leaderboardKicker: "公开榜单",
     leaderboardTitle: "v0.1 Raw Model Track",
     leaderboardNote:
@@ -98,6 +112,10 @@ function renderStaticText(data) {
   setText("metric-records", t.metricRecords);
   setText("metric-targets", t.metricTargets);
   setText("metric-best", t.metricBest);
+  setText("background-kicker", t.backgroundKicker);
+  setText("background-title", t.backgroundTitle);
+  setText("background-note", t.backgroundNote);
+  setText("background-body", t.backgroundBody);
   setText("leaderboard-kicker", t.leaderboardKicker);
   setText("leaderboard-title", t.leaderboardTitle);
   setText("leaderboard-note", t.leaderboardNote);
@@ -122,6 +140,9 @@ function renderStaticText(data) {
   setText("model-count", data.models.length);
   setText("record-count", data.benchmark.records);
   setText("target-count", data.benchmark.auto_evaluable_targets);
+
+  const tokenList = document.getElementById("background-tokens");
+  tokenList.innerHTML = t.backgroundTokens.map((token) => `<span>${token}</span>`).join("");
 
   document.querySelectorAll(".lang-button").forEach((button) => {
     button.classList.toggle("active", button.dataset.lang === currentLang);

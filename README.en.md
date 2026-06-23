@@ -8,6 +8,12 @@ The benchmark asks one narrow question:
 
 > Given the same raw Chinese news text, without external rule frontends, LLM rewriting, SSML, or manual text fixes, can a TTS system pronounce the target expressions correctly?
 
+## Why This Benchmark Exists
+
+Chinese news text contains many surface forms that are uncommon in ordinary prose but frequent in spoken news: scores, hyphens, ranges, model names, unit symbols, percentages, English abbreviations, and mixed Chinese-Latin-digit names. Examples include `96-91`, `苏-27`, `2028-2030年`, `620N·m`, `3.5%`, and `80后`. These forms are usually clear to human news editors, but raw TTS systems often normalize them incorrectly.
+
+Such errors are not just naturalness issues. They can change the meaning of the news item: a score may be read as a range, an aircraft model may be read as a negative number, `80后` may be read as "eighty-hou", and unit symbols may be spelled or normalized inconsistently. CN-NewsTTS Bench measures this raw-model capability with an open, reproducible, automatic target-level protocol.
+
 ## v0.1 Status
 
 The v0.1 public release includes:

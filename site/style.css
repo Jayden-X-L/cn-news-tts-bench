@@ -183,6 +183,10 @@ h2 {
   overflow: hidden;
 }
 
+.background-panel {
+  background: #ffffff;
+}
+
 .section-heading {
   display: flex;
   justify-content: space-between;
@@ -201,6 +205,40 @@ h2 {
   color: #5f6e7c;
   font-size: 14px;
   line-height: 1.6;
+}
+
+.background-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(260px, .8fr);
+  gap: 18px;
+  padding: 18px 20px 20px;
+}
+
+.background-copy {
+  color: #344556;
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+.token-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-content: flex-start;
+}
+
+.token-list span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  border: 1px solid #cbd9df;
+  border-radius: 8px;
+  padding: 0 10px;
+  color: #124d5d;
+  background: #edf6f6;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 13px;
+  font-weight: 720;
 }
 
 .table-wrap {
@@ -399,6 +437,7 @@ footer {
   }
 
   .hero,
+  .background-grid,
   .grid-two,
   .case-grid {
     grid-template-columns: 1fr;
