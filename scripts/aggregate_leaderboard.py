@@ -25,6 +25,12 @@ LEADERBOARD_FIELDS = [
 ]
 
 
+def load_site_metadata(path: Path) -> dict:
+    if not path or not path.exists():
+        return {}
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
 def load_summaries(per_model_dir: Path) -> list[dict]:
     summaries = []
     for path in sorted(per_model_dir.glob("*/summary.json")):
@@ -49,11 +55,64 @@ def flatten(summary: dict) -> dict:
     }
 
 
+def default_model_metadata(model_id: str) -> dict:
+    return {
+        "name_en": model_id,
+        "name_zh": model_id,
+        "provider_en": "Unknown",
+        "provider_zh": "Unknown",
+        "api_source_en": "Unknown",
+        "api_source_zh": "Unknown",
+        "model": model_id,
+        "voice": "unknown",
+        "sample_rate": 24000,
+        "audio_format": "wav",
+    }
+
+
+def build_site_payload(rows: list[dict], metadata: dict) -> dict:
+    model_metadata = metadata.get("models", {})
+    if isinstance(model_metadata, list):
+        model_metadata = {item["model_id"]: item for item in model_metadata}
+
+    first = rows[0] if rows else {}
+    auto_targets = int(first.get("total_auto_evaluable_targets", 0))
+    optional_targets = int(first.get("optional_targets_excluded", 0))
+    benchmark = {
+        "name": "CN-NewsTTS Bench",
+        "split": "unknown",
+        "records": 0,
+        "targets": auto_targets + optional_targets,
+        "auto_evaluable_targets": auto_targets,
+        "optional_targets_excluded": optional_targets,
+        "audio_per_model": 0,
+        "raw_track": True,
+    }
+    benchmark.update(metadata.get("benchmark", {}))
+
+    site_rows = []
+    for row in rows:
+        site_row = default_model_metadata(row["model_id"])
+        site_row.update(model_metadata.get(row["model_id"], {}))
+        site_row.update(row)
+        site_rows.append(site_row)
+
+    return {
+        "generated_by": "scripts/aggregate_leaderboard.py",
+        "version": metadata.get("version", ""),
+        "benchmark": benchmark,
+        "asr_ensemble": metadata.get("asr_ensemble", []),
+        "models": site_rows,
+        "examples": metadata.get("examples", []),
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--per-model-dir", type=Path, default=Path("results/per_model"))
     parser.add_argument("--results-dir", type=Path, default=Path("results"))
     parser.add_argument("--site-dir", type=Path, default=Path("site"))
+    parser.add_argument("--site-metadata", type=Path, default=Path("configs/site_metadata.json"))
     args = parser.parse_args()
 
     summaries = load_summaries(args.per_model_dir)
@@ -78,11 +137,11 @@ def main() -> int:
     }
     json_text = json.dumps(payload, ensure_ascii=False, indent=2) + "\n"
     json_path.write_text(json_text, encoding="utf-8")
-    site_json_path.write_text(json_text, encoding="utf-8")
+    site_payload = build_site_payload(rows, load_site_metadata(args.site_metadata))
+    site_json_path.write_text(json.dumps(site_payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({"models": len(rows), "csv": str(csv_path), "json": str(json_path)}, ensure_ascii=False, indent=2))
     return 0
 
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

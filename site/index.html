@@ -3,56 +3,118 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CN-NewsTTS Bench</title>
+  <title>CN-NewsTTS Bench 中文新闻 TTS 排行榜</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <main>
-    <header>
-      <p class="eyebrow">CN-NewsTTS Bench</p>
-      <h1>中文新闻裸 TTS 读法准确率排行榜</h1>
-      <p class="summary">v0.1 public test。开源、自动化、target-level。主榜只评估不使用外部前端、LLM 改写、SSML 或人工修正的 Raw Model Track。</p>
+    <header class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">CN-NewsTTS Bench · v0.1 public test</p>
+        <h1 id="title">中文新闻裸 TTS 读法准确率排行榜</h1>
+        <p class="summary" id="summary"></p>
+        <div class="hero-actions" aria-label="language and repository links">
+          <div class="language-toggle" role="group" aria-label="Language">
+            <button class="lang-button" data-lang="en" type="button">EN</button>
+            <button class="lang-button active" data-lang="zh" type="button">中文</button>
+          </div>
+          <a class="link-button" href="https://github.com/Jayden-X-L/cn-news-tts-bench">GitHub</a>
+          <a class="link-button" href="https://github.com/Jayden-X-L/cn-news-tts-bench/releases/tag/v0.1">v0.1</a>
+        </div>
+      </div>
+      <div class="score-visual" aria-label="Top strict auto accuracy">
+        <span id="visual-score">--</span>
+        <label id="visual-label"></label>
+        <div class="gauge">
+          <div id="visual-bar"></div>
+        </div>
+      </div>
     </header>
 
-    <section class="metrics">
-      <div>
-        <span id="model-count">0</span>
-        <label>Models</label>
+    <section class="metric-grid" aria-label="benchmark summary">
+      <div class="metric">
+        <span id="model-count">7</span>
+        <label id="metric-models"></label>
       </div>
-      <div>
+      <div class="metric">
+        <span id="record-count">800</span>
+        <label id="metric-records"></label>
+      </div>
+      <div class="metric">
+        <span id="target-count">992</span>
+        <label id="metric-targets"></label>
+      </div>
+      <div class="metric">
         <span id="best-score">--</span>
-        <label>Best Strict Auto Accuracy</label>
-      </div>
-      <div>
-        <span>992</span>
-        <label>Auto-Evaluable Targets</label>
+        <label id="metric-best"></label>
       </div>
     </section>
 
-    <section>
-      <table>
-        <thead>
-          <tr>
-            <th>Rank</th>
-            <th>Model</th>
-            <th>Strict Auto</th>
-            <th>Resolved</th>
-            <th>Coverage</th>
-            <th>Unknown</th>
-            <th>ASR Disagree</th>
-            <th>Correct</th>
-            <th>Wrong</th>
-            <th>Targets</th>
-          </tr>
-        </thead>
-        <tbody id="leaderboard-body">
-          <tr><td colspan="10">Loading leaderboard...</td></tr>
-        </tbody>
-      </table>
+    <section class="panel">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker" id="leaderboard-kicker"></p>
+          <h2 id="leaderboard-title"></h2>
+        </div>
+        <p id="leaderboard-note"></p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th id="th-rank"></th>
+              <th id="th-system"></th>
+              <th id="th-source"></th>
+              <th id="th-strict"></th>
+              <th id="th-coverage"></th>
+              <th id="th-resolved"></th>
+              <th id="th-correct"></th>
+              <th id="th-wrong"></th>
+              <th id="th-unknown"></th>
+            </tr>
+          </thead>
+          <tbody id="leaderboard-body">
+            <tr><td colspan="9">加载中...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="grid-two">
+      <div class="panel">
+        <div class="section-heading compact">
+          <div>
+            <p class="section-kicker" id="protocol-kicker"></p>
+            <h2 id="protocol-title"></h2>
+          </div>
+        </div>
+        <div class="protocol-list" id="protocol-list"></div>
+      </div>
+
+      <div class="panel">
+        <div class="section-heading compact">
+          <div>
+            <p class="section-kicker" id="model-kicker"></p>
+            <h2 id="model-title"></h2>
+          </div>
+        </div>
+        <div class="model-list" id="model-list"></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker" id="examples-kicker"></p>
+          <h2 id="examples-title"></h2>
+        </div>
+        <p id="examples-note"></p>
+      </div>
+      <div class="case-grid" id="case-grid"></div>
     </section>
 
     <footer>
-      <p>ASR ensemble: MiMo API ASR + SenseVoiceSmall + Paraformer-zh. Strict Auto Accuracy = correct / all auto-evaluable targets. Unknown counts against the main score.</p>
+      <p id="footer-text"></p>
     </footer>
   </main>
   <script src="leaderboard.js"></script>
