@@ -1,0 +1,11 @@
+name,targets,correct,wrong,unknown,strict_auto_accuracy,unknown_rate
+abbreviation,104,87,0,17,0.836538,0.163462
+brand_mixed,64,18,13,33,0.28125,0.515625
+generation_label,32,24,4,4,0.75,0.125
+military_model,192,38,16,138,0.197917,0.71875
+percentage,56,56,0,0,1.0,0.0
+range_hyphen,80,69,0,11,0.8625,0.1375
+sports_score,224,30,0,194,0.133929,0.866071
+unit_symbol,96,2,28,66,0.020833,0.6875
+vehicle_model,64,64,0,0,1.0,0.0
+year_range,80,80,0,0,1.0,0.0

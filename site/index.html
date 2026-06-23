@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CN-NewsTTS Bench</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <header>
+      <p class="eyebrow">CN-NewsTTS Bench</p>
+      <h1>中文新闻裸 TTS 读法准确率排行榜</h1>
+      <p class="summary">v0.1 public test。开源、自动化、target-level。主榜只评估不使用外部前端、LLM 改写、SSML 或人工修正的 Raw Model Track。</p>
+    </header>
+
+    <section class="metrics">
+      <div>
+        <span id="model-count">0</span>
+        <label>Models</label>
+      </div>
+      <div>
+        <span id="best-score">--</span>
+        <label>Best Strict Auto Accuracy</label>
+      </div>
+      <div>
+        <span>992</span>
+        <label>Auto-Evaluable Targets</label>
+      </div>
+    </section>
+
+    <section>
+      <table>
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Model</th>
+            <th>Strict Auto</th>
+            <th>Resolved</th>
+            <th>Coverage</th>
+            <th>Unknown</th>
+            <th>ASR Disagree</th>
+            <th>Correct</th>
+            <th>Wrong</th>
+            <th>Targets</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboard-body">
+          <tr><td colspan="10">Loading leaderboard...</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <footer>
+      <p>ASR ensemble: MiMo API ASR + SenseVoiceSmall + Paraformer-zh. Strict Auto Accuracy = correct / all auto-evaluable targets. Unknown counts against the main score.</p>
+    </footer>
+  </main>
+  <script src="leaderboard.js"></script>
+</body>
+</html>

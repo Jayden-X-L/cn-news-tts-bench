@@ -1,0 +1,33 @@
+name: validate
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate sample dataset
+        run: |
+          python scripts/validate_dataset.py data/dev.jsonl
+          python scripts/validate_dataset.py data/test_public.jsonl
+          python scripts/validate_dataset.py data/dev.sample.jsonl
+      - name: Compile scripts
+        run: |
+          python -m py_compile scripts/*.py
+      - name: Smoke score example
+        run: |
+          python scripts/score_submission.py \
+            --dataset data/dev.sample.jsonl \
+            --asr-results examples/asr_results/example_model.asr.jsonl \
+            --model-id example_model \
+            --output-dir /tmp/cn_newstts_ci/per_model
+          python scripts/aggregate_leaderboard.py \
+            --per-model-dir /tmp/cn_newstts_ci/per_model \
+            --results-dir /tmp/cn_newstts_ci/results \
+            --site-dir /tmp/cn_newstts_ci/site

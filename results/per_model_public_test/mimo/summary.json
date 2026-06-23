@@ -1,0 +1,194 @@
+{
+  "model_id": "mimo",
+  "asr_names": [
+    "mimo_v2_5_asr",
+    "paraformer_zh",
+    "sensevoice_small"
+  ],
+  "total_auto_evaluable_targets": 992,
+  "correct": 273,
+  "wrong": 350,
+  "unknown": 369,
+  "strict_auto_accuracy": 0.275202,
+  "resolved_accuracy": 0.438202,
+  "coverage": 0.628024,
+  "unknown_rate": 0.371976,
+  "asr_disagreement_rate": 0.445565,
+  "optional_targets_excluded": 16,
+  "breakdowns": {
+    "category": {
+      "abbreviation": {
+        "targets": 104,
+        "correct": 94,
+        "wrong": 0,
+        "unknown": 10,
+        "strict_auto_accuracy": 0.903846,
+        "unknown_rate": 0.096154
+      },
+      "brand_mixed": {
+        "targets": 64,
+        "correct": 28,
+        "wrong": 15,
+        "unknown": 21,
+        "strict_auto_accuracy": 0.4375,
+        "unknown_rate": 0.328125
+      },
+      "generation_label": {
+        "targets": 32,
+        "correct": 0,
+        "wrong": 19,
+        "unknown": 13,
+        "strict_auto_accuracy": 0.0,
+        "unknown_rate": 0.40625
+      },
+      "military_model": {
+        "targets": 192,
+        "correct": 0,
+        "wrong": 82,
+        "unknown": 110,
+        "strict_auto_accuracy": 0.0,
+        "unknown_rate": 0.572917
+      },
+      "percentage": {
+        "targets": 56,
+        "correct": 56,
+        "wrong": 0,
+        "unknown": 0,
+        "strict_auto_accuracy": 1.0,
+        "unknown_rate": 0.0
+      },
+      "range_hyphen": {
+        "targets": 80,
+        "correct": 17,
+        "wrong": 0,
+        "unknown": 63,
+        "strict_auto_accuracy": 0.2125,
+        "unknown_rate": 0.7875
+      },
+      "sports_score": {
+        "targets": 224,
+        "correct": 0,
+        "wrong": 221,
+        "unknown": 3,
+        "strict_auto_accuracy": 0.0,
+        "unknown_rate": 0.013393
+      },
+      "unit_symbol": {
+        "targets": 96,
+        "correct": 19,
+        "wrong": 13,
+        "unknown": 64,
+        "strict_auto_accuracy": 0.197917,
+        "unknown_rate": 0.666667
+      },
+      "vehicle_model": {
+        "targets": 64,
+        "correct": 59,
+        "wrong": 0,
+        "unknown": 5,
+        "strict_auto_accuracy": 0.921875,
+        "unknown_rate": 0.078125
+      },
+      "year_range": {
+        "targets": 80,
+        "correct": 0,
+        "wrong": 0,
+        "unknown": 80,
+        "strict_auto_accuracy": 0.0,
+        "unknown_rate": 1.0
+      }
+    },
+    "group": {
+      "abbreviation": {
+        "targets": 104,
+        "correct": 94,
+        "wrong": 0,
+        "unknown": 10,
+        "strict_auto_accuracy": 0.903846,
+        "unknown_rate": 0.096154
+      },
+      "entity": {
+        "targets": 320,
+        "correct": 87,
+        "wrong": 97,
+        "unknown": 136,
+        "strict_auto_accuracy": 0.271875,
+        "unknown_rate": 0.425
+      },
+      "number": {
+        "targets": 472,
+        "correct": 73,
+        "wrong": 240,
+        "unknown": 159,
+        "strict_auto_accuracy": 0.154661,
+        "unknown_rate": 0.336864
+      },
+      "unit": {
+        "targets": 96,
+        "correct": 19,
+        "wrong": 13,
+        "unknown": 64,
+        "strict_auto_accuracy": 0.197917,
+        "unknown_rate": 0.666667
+      }
+    },
+    "domain": {
+      "auto": {
+        "targets": 160,
+        "correct": 78,
+        "wrong": 13,
+        "unknown": 69,
+        "strict_auto_accuracy": 0.4875,
+        "unknown_rate": 0.43125
+      },
+      "finance": {
+        "targets": 120,
+        "correct": 84,
+        "wrong": 15,
+        "unknown": 21,
+        "strict_auto_accuracy": 0.7,
+        "unknown_rate": 0.175
+      },
+      "general": {
+        "targets": 80,
+        "correct": 17,
+        "wrong": 0,
+        "unknown": 63,
+        "strict_auto_accuracy": 0.2125,
+        "unknown_rate": 0.7875
+      },
+      "military": {
+        "targets": 192,
+        "correct": 0,
+        "wrong": 82,
+        "unknown": 110,
+        "strict_auto_accuracy": 0.0,
+        "unknown_rate": 0.572917
+      },
+      "society": {
+        "targets": 32,
+        "correct": 0,
+        "wrong": 19,
+        "unknown": 13,
+        "strict_auto_accuracy": 0.0,
+        "unknown_rate": 0.40625
+      },
+      "sports": {
+        "targets": 224,
+        "correct": 0,
+        "wrong": 221,
+        "unknown": 3,
+        "strict_auto_accuracy": 0.0,
+        "unknown_rate": 0.013393
+      },
+      "tech": {
+        "targets": 184,
+        "correct": 94,
+        "wrong": 0,
+        "unknown": 90,
+        "strict_auto_accuracy": 0.51087,
+        "unknown_rate": 0.48913
+      }
+    }
+  }
+}

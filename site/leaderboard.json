@@ -1,0 +1,103 @@
+{
+  "generated_by": "scripts/aggregate_leaderboard.py",
+  "models": [
+    {
+      "model_id": "volcengine_tts",
+      "strict_auto_accuracy": 0.879032,
+      "resolved_accuracy": 0.962472,
+      "coverage": 0.913306,
+      "unknown_rate": 0.086694,
+      "asr_disagreement_rate": 0.362903,
+      "correct": 872,
+      "wrong": 34,
+      "unknown": 86,
+      "total_auto_evaluable_targets": 992,
+      "optional_targets_excluded": 16,
+      "rank": 1
+    },
+    {
+      "model_id": "azure_speech_tts",
+      "strict_auto_accuracy": 0.756048,
+      "resolved_accuracy": 1.0,
+      "coverage": 0.756048,
+      "unknown_rate": 0.243952,
+      "asr_disagreement_rate": 0.377016,
+      "correct": 750,
+      "wrong": 0,
+      "unknown": 242,
+      "total_auto_evaluable_targets": 992,
+      "optional_targets_excluded": 16,
+      "rank": 2
+    },
+    {
+      "model_id": "google_cloud_tts",
+      "strict_auto_accuracy": 0.603831,
+      "resolved_accuracy": 0.701405,
+      "coverage": 0.860887,
+      "unknown_rate": 0.139113,
+      "asr_disagreement_rate": 0.449597,
+      "correct": 599,
+      "wrong": 255,
+      "unknown": 138,
+      "total_auto_evaluable_targets": 992,
+      "optional_targets_excluded": 16,
+      "rank": 3
+    },
+    {
+      "model_id": "minimax_tts",
+      "strict_auto_accuracy": 0.548387,
+      "resolved_accuracy": 0.645314,
+      "coverage": 0.849798,
+      "unknown_rate": 0.150202,
+      "asr_disagreement_rate": 0.464718,
+      "correct": 544,
+      "wrong": 299,
+      "unknown": 149,
+      "total_auto_evaluable_targets": 992,
+      "optional_targets_excluded": 16,
+      "rank": 4
+    },
+    {
+      "model_id": "aliyun_tts",
+      "strict_auto_accuracy": 0.471774,
+      "resolved_accuracy": 0.884688,
+      "coverage": 0.533266,
+      "unknown_rate": 0.466734,
+      "asr_disagreement_rate": 0.358871,
+      "correct": 468,
+      "wrong": 61,
+      "unknown": 463,
+      "total_auto_evaluable_targets": 992,
+      "optional_targets_excluded": 16,
+      "rank": 5
+    },
+    {
+      "model_id": "mimo",
+      "strict_auto_accuracy": 0.275202,
+      "resolved_accuracy": 0.438202,
+      "coverage": 0.628024,
+      "unknown_rate": 0.371976,
+      "asr_disagreement_rate": 0.445565,
+      "correct": 273,
+      "wrong": 350,
+      "unknown": 369,
+      "total_auto_evaluable_targets": 992,
+      "optional_targets_excluded": 16,
+      "rank": 6
+    },
+    {
+      "model_id": "aws_polly",
+      "strict_auto_accuracy": 0.243952,
+      "resolved_accuracy": 0.428319,
+      "coverage": 0.569556,
+      "unknown_rate": 0.430444,
+      "asr_disagreement_rate": 0.462702,
+      "correct": 242,
+      "wrong": 323,
+      "unknown": 427,
+      "total_auto_evaluable_targets": 992,
+      "optional_targets_excluded": 16,
+      "rank": 7
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+name,targets,correct,wrong,unknown,strict_auto_accuracy,unknown_rate
+abbreviation,104,87,17,0,0.836538,0.0
+entity,320,171,46,103,0.534375,0.321875
+number,472,234,236,2,0.495763,0.004237
+unit,96,52,0,44,0.541667,0.458333

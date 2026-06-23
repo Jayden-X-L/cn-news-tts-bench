@@ -1,0 +1,63 @@
+{
+  "providers": {
+    "aliyun_tts": {
+      "output": "results/asr_results/public_test/aliyun_tts.asr.jsonl",
+      "rows": 800,
+      "missing": 0,
+      "insufficient_asr": 0,
+      "first_missing": [],
+      "first_insufficient": []
+    },
+    "aws_polly": {
+      "output": "results/asr_results/public_test/aws_polly.asr.jsonl",
+      "rows": 800,
+      "missing": 0,
+      "insufficient_asr": 0,
+      "first_missing": [],
+      "first_insufficient": []
+    },
+    "azure_speech_tts": {
+      "output": "results/asr_results/public_test/azure_speech_tts.asr.jsonl",
+      "rows": 800,
+      "missing": 0,
+      "insufficient_asr": 0,
+      "first_missing": [],
+      "first_insufficient": []
+    },
+    "google_cloud_tts": {
+      "output": "results/asr_results/public_test/google_cloud_tts.asr.jsonl",
+      "rows": 800,
+      "missing": 0,
+      "insufficient_asr": 0,
+      "first_missing": [],
+      "first_insufficient": []
+    },
+    "mimo": {
+      "output": "results/asr_results/public_test/mimo.asr.jsonl",
+      "rows": 800,
+      "missing": 0,
+      "insufficient_asr": 0,
+      "first_missing": [],
+      "first_insufficient": []
+    },
+    "minimax_tts": {
+      "output": "results/asr_results/public_test/minimax_tts.asr.jsonl",
+      "rows": 800,
+      "missing": 0,
+      "insufficient_asr": 0,
+      "first_missing": [],
+      "first_insufficient": []
+    },
+    "volcengine_tts": {
+      "output": "results/asr_results/public_test/volcengine_tts.asr.jsonl",
+      "rows": 800,
+      "missing": 0,
+      "insufficient_asr": 0,
+      "first_missing": [],
+      "first_insufficient": []
+    }
+  },
+  "status_counts": {
+    "ok": 16800
+  }
+}

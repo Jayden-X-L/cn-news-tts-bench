@@ -1,0 +1,839 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CN-NewsTTS API Config Builder</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --text: #1d2530;
+      --muted: #637083;
+      --line: #d8dee8;
+      --accent: #256f9c;
+      --accent-strong: #15567d;
+      --warn-bg: #fff6df;
+      --warn-line: #ebc766;
+      --danger: #9b2f2f;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 32px 18px 56px;
+    }
+
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 32px;
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    button,
+    .file-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      color: var(--text);
+      padding: 8px 12px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    button.primary {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: #ffffff;
+    }
+
+    button.primary:hover {
+      background: var(--accent-strong);
+    }
+
+    button.danger {
+      color: var(--danger);
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .notice {
+      margin: 16px 0 20px;
+      padding: 12px 14px;
+      border: 1px solid var(--warn-line);
+      background: var(--warn-bg);
+      border-radius: 8px;
+      color: #604b12;
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    .guide {
+      display: grid;
+      gap: 6px;
+      margin: 0 0 16px;
+      padding: 12px 14px;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: #334255;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .guide strong {
+      color: var(--accent-strong);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
+      gap: 16px;
+      align-items: start;
+    }
+
+    .providers {
+      display: grid;
+      gap: 12px;
+    }
+
+    .card,
+    .preview {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .card {
+      padding: 14px;
+    }
+
+    .card-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .card h2 {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+
+    .enabled {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 14px;
+      user-select: none;
+    }
+
+    .fields {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    label.field {
+      display: grid;
+      gap: 5px;
+      min-width: 0;
+    }
+
+    label.field.full {
+      grid-column: 1 / -1;
+    }
+
+    label.field span {
+      color: #334255;
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .req,
+    .opt {
+      display: inline-flex;
+      align-items: center;
+      margin-left: 6px;
+      border-radius: 999px;
+      padding: 1px 6px;
+      font-size: 11px;
+      font-weight: 700;
+      vertical-align: 1px;
+    }
+
+    .req {
+      background: #e7f1f7;
+      color: #15567d;
+    }
+
+    .opt {
+      background: #f1f3f5;
+      color: #687789;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--text);
+      font: inherit;
+      font-size: 14px;
+      padding: 9px 10px;
+      min-height: 38px;
+    }
+
+    textarea {
+      min-height: 74px;
+      resize: vertical;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .policy {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .policy span {
+      border: 1px solid #dfe5ec;
+      border-radius: 8px;
+      padding: 8px;
+      background: #f9fafb;
+      text-align: center;
+    }
+
+    .preview {
+      position: sticky;
+      top: 14px;
+      overflow: hidden;
+    }
+
+    .preview header {
+      margin: 0;
+      display: block;
+      padding: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .preview h2 {
+      margin: 0 0 4px;
+      font-size: 17px;
+    }
+
+    pre {
+      margin: 0;
+      padding: 14px;
+      max-height: 720px;
+      overflow: auto;
+      font-size: 12px;
+      line-height: 1.45;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .status {
+      margin-top: 10px;
+      min-height: 22px;
+      color: var(--accent-strong);
+      font-size: 13px;
+    }
+
+    .global {
+      margin-bottom: 12px;
+      padding: 14px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    @media (max-width: 900px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .preview {
+        position: static;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .fields,
+      .policy {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>API Config Builder</h1>
+        <p>为 CN-NewsTTS Bench 生成本地 TTS API 配置 JSON。</p>
+      </div>
+      <div class="actions">
+        <label class="file-button" for="import-file">导入 JSON</label>
+        <input id="import-file" type="file" accept="application/json,.json">
+        <button id="copy-json" type="button">复制 JSON</button>
+        <button id="download-json" class="primary" type="button">导出 JSON</button>
+        <button id="clear-all" class="danger" type="button">清空</button>
+      </div>
+    </header>
+
+    <div class="notice">
+      这个页面只在本地浏览器中运行，不会上传任何信息，也不会使用 localStorage 保存密钥。导出的文件建议命名为
+      <strong>tts_api_config.local.json</strong>，放在 <strong>configs/</strong> 或其他本地安全目录，千万不要提交到 GitHub。
+    </div>
+
+    <div class="guide">
+      <div><strong>最少要填：</strong>启用 provider 后，确认 Display Name、Model、Voice，并至少提供一种认证方式：API Key Env Var、API Key 或 Credential File Path。</div>
+      <div><strong>可以先不填：</strong>Sample Rate、Audio Format、Region、Endpoint、Extra JSON。只有对应服务文档明确要求时再补。</div>
+      <div><strong>榜单约束：</strong>页面底部 policy 固定为 raw text only，不允许外部前端、LLM 改写、SSML 或人工修正。</div>
+    </div>
+
+    <section class="global">
+      <label class="field">
+        <span>全局备注</span>
+        <input id="global-notes" type="text" placeholder="例如：v0.1 首轮商业 TTS API 配置">
+      </label>
+    </section>
+
+    <div class="grid">
+      <section id="providers" class="providers" aria-label="providers"></section>
+
+      <aside class="preview">
+        <header>
+          <h2>JSON Preview</h2>
+          <p>导出前可以先检查字段是否齐全。</p>
+          <div id="status" class="status"></div>
+        </header>
+        <pre id="json-preview">{}</pre>
+      </aside>
+    </div>
+  </main>
+
+  <template id="provider-template">
+    <article class="card" data-provider-card>
+      <div class="card-header">
+        <h2 data-title></h2>
+        <label class="enabled">
+          <input data-field="enabled" type="checkbox">
+          启用
+        </label>
+      </div>
+      <div class="fields">
+        <label class="field">
+          <span>Display Name / 榜单显示名 <b class="req">必填</b></span>
+          <input data-field="display_name" type="text">
+          <small class="hint">显示在 system card 和内部结果里的名字。</small>
+        </label>
+        <label class="field">
+          <span>Model / 模型名 <b class="req">必填</b></span>
+          <input data-field="model" type="text">
+          <small class="hint">API 文档中的模型 ID 或服务版本。</small>
+        </label>
+        <label class="field">
+          <span>Voice / 音色名 <b class="req">必填</b></span>
+          <input data-field="voice" type="text">
+          <small class="hint">固定一个 voice，榜单同一模型不要中途更换。</small>
+        </label>
+        <label class="field">
+          <span>Sample Rate / 采样率 <b class="opt">可选</b></span>
+          <input data-field="sample_rate" type="number" min="0" step="1" placeholder="24000">
+          <small class="hint">不知道就留默认或空；脚本可按 provider 默认值处理。</small>
+        </label>
+        <label class="field">
+          <span>Audio Format / 音频格式 <b class="opt">可选</b></span>
+          <input data-field="audio_format" type="text" placeholder="wav">
+          <small class="hint">例如 wav、mp3、pcm。优先用 provider 原生稳定格式。</small>
+        </label>
+        <label class="field">
+          <span>Region / 区域 <b class="opt">按服务需要</b></span>
+          <input data-field="region" type="text">
+          <small class="hint">Azure、AWS、Google 可能需要；OpenAI 通常不需要。</small>
+        </label>
+        <label class="field full">
+          <span>Endpoint / Base URL / 接口地址 <b class="opt">按服务需要</b></span>
+          <input data-field="endpoint" type="text">
+          <small class="hint">若使用官方默认 endpoint 可以留空；私有网关或自定义 endpoint 再填。</small>
+        </label>
+        <label class="field">
+          <span>API Key Env Var / 环境变量名 <b class="opt">推荐</b></span>
+          <input data-field="api_key_env" type="text">
+          <small class="hint">推荐只填环境变量名，例如 OPENAI_API_KEY，不直接填 key。</small>
+        </label>
+        <label class="field">
+          <span>API Key / 密钥明文 <b class="opt">不推荐</b></span>
+          <input data-field="api_key" type="password" autocomplete="off">
+          <small class="hint">只有你明确希望导出 JSON 里包含 key 时再填。</small>
+        </label>
+        <label class="field full">
+          <span>Credential File Path / 凭证文件路径 <b class="opt">按服务需要</b></span>
+          <input data-field="credential_file" type="text" placeholder="/absolute/path/to/service-account.json">
+          <small class="hint">例如 Google service account JSON 的本地绝对路径。</small>
+        </label>
+        <label class="field full">
+          <span>Extra JSON / 额外参数 <b class="opt">高级</b></span>
+          <textarea data-field="extra_json" spellcheck="false" placeholder='{"timeout_seconds":120}'></textarea>
+          <small class="hint">填 provider 特有参数，必须是 JSON object；不会做 TTS 文本改写。</small>
+        </label>
+        <label class="field full">
+          <span>Provider Notes / 备注 <b class="opt">可选</b></span>
+          <input data-field="notes" type="text">
+          <small class="hint">记录余额、赠金、账号、注意事项等。</small>
+        </label>
+        <div class="policy">
+          <span>raw_text_only=true</span>
+          <span>external_frontend=false</span>
+          <span>llm_rewrite=false</span>
+          <span>ssml=false</span>
+          <span>manual_text_fix=false</span>
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <script>
+    const DEFAULTS = [
+      {
+        provider: "mimo",
+        title: "MiMo TTS",
+        enabled: true,
+        display_name: "MiMo v2.5 TTS Baihua",
+        model: "mimo-v2.5-tts",
+        voice: "白桦",
+        sample_rate: 24000,
+        audio_format: "wav",
+        region: "",
+        endpoint: "",
+        api_key_env: "MIMO_API_KEY",
+        api_key: "",
+        credential_file: "",
+        extra_json: "",
+        notes: "Raw text only."
+      },
+      {
+        provider: "google_cloud_tts",
+        title: "Google Cloud TTS",
+        enabled: true,
+        display_name: "Google Cloud TTS Chirp3 HD",
+        model: "text-to-speech",
+        voice: "cmn-CN-Chirp3-HD-Kore",
+        sample_rate: 24000,
+        audio_format: "wav",
+        region: "global",
+        endpoint: "",
+        api_key_env: "GOOGLE_TTS_API_KEY",
+        api_key: "",
+        credential_file: "",
+        extra_json: "{\"language_code\":\"cmn-CN\",\"auth_mode\":\"api_key\"}",
+        notes: "If using a service account JSON instead, set api_key/api_key_env empty, put the JSON path in Credential File Path, and use GOOGLE_APPLICATION_CREDENTIALS there."
+      },
+      {
+        provider: "azure_speech_tts",
+        title: "Azure Speech TTS",
+        enabled: true,
+        display_name: "Azure Neural TTS Xiaoxiao",
+        model: "azure-neural-tts",
+        voice: "zh-CN-XiaoxiaoNeural",
+        sample_rate: 24000,
+        audio_format: "wav",
+        region: "",
+        endpoint: "",
+        api_key_env: "AZURE_SPEECH_KEY",
+        api_key: "",
+        credential_file: "",
+        extra_json: "{\"region_env\":\"AZURE_SPEECH_REGION\"}",
+        notes: "Fill region, for example eastasia or eastus."
+      },
+      {
+        provider: "openai_tts",
+        title: "OpenAI TTS",
+        enabled: false,
+        display_name: "OpenAI gpt-4o-mini-tts",
+        model: "gpt-4o-mini-tts",
+        voice: "marin",
+        sample_rate: 24000,
+        audio_format: "wav",
+        region: "",
+        endpoint: "https://api.openai.com/v1/audio/speech",
+        api_key_env: "OPENAI_API_KEY",
+        api_key: "",
+        credential_file: "",
+        extra_json: "",
+        notes: "Optional only. Excluded from the v0.1 first-wave run when API payment is unavailable; do not use instructions for benchmark runs."
+      },
+      {
+        provider: "minimax_tts",
+        title: "MiniMax TTS",
+        enabled: true,
+        display_name: "MiniMax Speech 2.8 HD",
+        model: "speech-2.8-hd",
+        voice: "",
+        sample_rate: 24000,
+        audio_format: "mp3",
+        region: "",
+        endpoint: "",
+        api_key_env: "MINIMAX_API_KEY",
+        api_key: "",
+        credential_file: "",
+        extra_json: "{\"group_id_env\":\"MINIMAX_GROUP_ID\"}",
+        notes: ""
+      },
+      {
+        provider: "aws_polly",
+        title: "AWS Polly",
+        enabled: true,
+        display_name: "AWS Polly Mandarin",
+        model: "polly-neural",
+        voice: "Zhiyu",
+        sample_rate: 24000,
+        audio_format: "mp3",
+        region: "us-east-1",
+        endpoint: "",
+        api_key_env: "AWS_ACCESS_KEY_ID",
+        api_key: "",
+        credential_file: "",
+        extra_json: "{\"secret_key_env\":\"AWS_SECRET_ACCESS_KEY\"}",
+        notes: ""
+      },
+      {
+        provider: "volcengine_tts",
+        title: "Volcano / Doubao TTS",
+        enabled: true,
+        display_name: "Volcano Doubao TTS",
+        model: "",
+        voice: "",
+        sample_rate: 24000,
+        audio_format: "wav",
+        region: "",
+        endpoint: "",
+        api_key_env: "VOLCENGINE_API_KEY",
+        api_key: "",
+        credential_file: "",
+        extra_json: "{\"app_id_env\":\"VOLCENGINE_APP_ID\",\"access_key_env\":\"VOLCENGINE_ACCESS_KEY\",\"secret_key_env\":\"VOLCENGINE_SECRET_KEY\"}",
+        notes: ""
+      },
+      {
+        provider: "aliyun_tts",
+        title: "Aliyun TTS",
+        enabled: true,
+        display_name: "Aliyun CosyVoice v3 Plus",
+        model: "cosyvoice-v3-plus",
+        voice: "",
+        sample_rate: 24000,
+        audio_format: "wav",
+        region: "",
+        endpoint: "",
+        api_key_env: "ALIYUN_API_KEY",
+        api_key: "",
+        credential_file: "",
+        extra_json: "{\"mode\":\"non_realtime\"}",
+        notes: "Use a built-in system voice. Avoid v3.5 models for the main leaderboard unless a fixed cloned/designed voice is explicitly documented."
+      },
+      {
+        provider: "elevenlabs_tts",
+        title: "ElevenLabs TTS",
+        enabled: false,
+        display_name: "ElevenLabs Multilingual",
+        model: "",
+        voice: "",
+        sample_rate: 24000,
+        audio_format: "mp3",
+        region: "",
+        endpoint: "",
+        api_key_env: "ELEVENLABS_API_KEY",
+        api_key: "",
+        credential_file: "",
+        extra_json: "",
+        notes: ""
+      }
+    ];
+
+    const state = structuredClone(DEFAULTS);
+    const providersEl = document.getElementById("providers");
+    const template = document.getElementById("provider-template");
+    const previewEl = document.getElementById("json-preview");
+    const statusEl = document.getElementById("status");
+    const globalNotesEl = document.getElementById("global-notes");
+
+    function parseExtraJson(text, provider) {
+      const trimmed = (text || "").trim();
+      if (!trimmed) return {};
+      try {
+        const parsed = JSON.parse(trimmed);
+        if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) return parsed;
+        throw new Error("Extra JSON must be an object");
+      } catch (error) {
+        throw new Error(`${provider}: Extra JSON 无效：${error.message}`);
+      }
+    }
+
+    function buildConfig() {
+      const providers = state
+        .filter(item => item.enabled)
+        .map(item => {
+          const extra = parseExtraJson(item.extra_json, item.provider);
+          return {
+            enabled: true,
+            provider: item.provider,
+            display_name: item.display_name || item.title,
+            model: item.model || "",
+            voice: item.voice || "",
+            sample_rate: Number(item.sample_rate || 0) || undefined,
+            audio_format: item.audio_format || "",
+            auth: {
+              api_key_env: item.api_key_env || "",
+              api_key: item.api_key || "",
+              credential_file: item.credential_file || "",
+              region: item.region || ""
+            },
+            request: {
+              endpoint: item.endpoint || "",
+              ...extra
+            },
+            policy: {
+              raw_text_only: true,
+              external_frontend: false,
+              llm_rewrite: false,
+              ssml: false,
+              manual_text_fix: false
+            },
+            notes: item.notes || ""
+          };
+        })
+        .map(item => {
+          if (item.sample_rate === undefined) delete item.sample_rate;
+          return item;
+        });
+
+      return {
+        schema_version: "0.1",
+        created_at: new Date().toISOString(),
+        raw_text_only: true,
+        notes: globalNotesEl.value || "",
+        providers
+      };
+    }
+
+    function validationMessages(config) {
+      const messages = [];
+      config.providers.forEach(provider => {
+        if (!provider.display_name) messages.push(`${provider.provider}: 缺少 Display Name`);
+        if (!provider.model) messages.push(`${provider.provider}: 缺少 Model`);
+        if (!provider.voice) messages.push(`${provider.provider}: 缺少 Voice`);
+        const auth = provider.auth || {};
+        if (!auth.api_key_env && !auth.api_key && !auth.credential_file) {
+          messages.push(`${provider.provider}: 至少填写 API Key Env Var、API Key 或 Credential File Path 之一`);
+        }
+      });
+      return messages;
+    }
+
+    function renderPreview() {
+      try {
+        const config = buildConfig();
+        previewEl.textContent = JSON.stringify(config, null, 2);
+        const messages = validationMessages(config);
+        statusEl.textContent = messages.length
+          ? `${config.providers.length} 个 provider 已启用；待补：${messages.slice(0, 3).join("；")}${messages.length > 3 ? "；..." : ""}`
+          : `${config.providers.length} 个 provider 已启用，必填项看起来齐了`;
+      } catch (error) {
+        previewEl.textContent = "";
+        statusEl.textContent = error.message;
+      }
+    }
+
+    function renderProviders() {
+      providersEl.innerHTML = "";
+      state.forEach((item, index) => {
+        const node = template.content.firstElementChild.cloneNode(true);
+        node.querySelector("[data-title]").textContent = item.title;
+        node.dataset.provider = item.provider;
+        node.querySelectorAll("[data-field]").forEach(input => {
+          const field = input.dataset.field;
+          if (input.type === "checkbox") {
+            input.checked = Boolean(item[field]);
+          } else {
+            input.value = item[field] ?? "";
+          }
+          input.addEventListener("input", () => {
+            if (input.type === "checkbox") {
+              state[index][field] = input.checked;
+            } else if (input.type === "number") {
+              state[index][field] = input.value ? Number(input.value) : "";
+            } else {
+              state[index][field] = input.value;
+            }
+            renderPreview();
+          });
+        });
+        providersEl.appendChild(node);
+      });
+      renderPreview();
+    }
+
+    function downloadJson() {
+      const config = buildConfig();
+      const messages = validationMessages(config);
+      if (messages.length && !confirm(`有 ${messages.length} 个必填项提示未处理，仍然导出吗？\n\n${messages.slice(0, 6).join("\n")}`)) {
+        return;
+      }
+      const blob = new Blob([JSON.stringify(config, null, 2) + "\n"], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "tts_api_config.local.json";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    async function copyJson() {
+      const config = buildConfig();
+      const messages = validationMessages(config);
+      if (messages.length && !confirm(`有 ${messages.length} 个必填项提示未处理，仍然复制吗？\n\n${messages.slice(0, 6).join("\n")}`)) {
+        return;
+      }
+      await navigator.clipboard.writeText(JSON.stringify(config, null, 2));
+      statusEl.textContent = "JSON 已复制到剪贴板";
+    }
+
+    function clearAll() {
+      if (!confirm("确认清空当前页面里的所有 API 信息？")) return;
+      state.splice(0, state.length, ...structuredClone(DEFAULTS).map(item => ({ ...item, enabled: false, api_key: "", credential_file: "" })));
+      globalNotesEl.value = "";
+      renderProviders();
+    }
+
+    function applyImportedConfig(config) {
+      if (!config || !Array.isArray(config.providers)) {
+        throw new Error("JSON 缺少 providers 数组");
+      }
+      const byProvider = new Map(config.providers.map(item => [item.provider, item]));
+      state.forEach(item => {
+        const imported = byProvider.get(item.provider);
+        if (!imported) {
+          item.enabled = false;
+          return;
+        }
+        item.enabled = Boolean(imported.enabled);
+        item.display_name = imported.display_name || item.display_name;
+        item.model = imported.model || "";
+        item.voice = imported.voice || "";
+        item.sample_rate = imported.sample_rate || "";
+        item.audio_format = imported.audio_format || "";
+        item.api_key_env = imported.auth?.api_key_env || "";
+        item.api_key = imported.auth?.api_key || "";
+        item.credential_file = imported.auth?.credential_file || "";
+        item.region = imported.auth?.region || "";
+        item.endpoint = imported.request?.endpoint || "";
+        const requestCopy = { ...(imported.request || {}) };
+        delete requestCopy.endpoint;
+        item.extra_json = Object.keys(requestCopy).length ? JSON.stringify(requestCopy, null, 2) : "";
+        item.notes = imported.notes || "";
+      });
+      globalNotesEl.value = config.notes || "";
+      renderProviders();
+    }
+
+    document.getElementById("download-json").addEventListener("click", () => {
+      try {
+        downloadJson();
+      } catch (error) {
+        statusEl.textContent = error.message;
+      }
+    });
+
+    document.getElementById("copy-json").addEventListener("click", () => {
+      copyJson().catch(error => {
+        statusEl.textContent = `复制失败：${error.message}`;
+      });
+    });
+
+    document.getElementById("clear-all").addEventListener("click", clearAll);
+    globalNotesEl.addEventListener("input", renderPreview);
+
+    document.getElementById("import-file").addEventListener("change", event => {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          applyImportedConfig(JSON.parse(String(reader.result || "{}")));
+          statusEl.textContent = "JSON 已导入";
+        } catch (error) {
+          statusEl.textContent = `导入失败：${error.message}`;
+        }
+      };
+      reader.readAsText(file, "utf-8");
+      event.target.value = "";
+    });
+
+    renderProviders();
+  </script>
+</body>
+</html>

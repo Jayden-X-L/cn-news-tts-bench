@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/example/cn-news-tts-bench/configs/tts_api_config.schema.json",
+  "title": "CN-NewsTTS Bench Local TTS API Config",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "created_at", "raw_text_only", "providers"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "raw_text_only": {
+      "type": "boolean",
+      "const": true
+    },
+    "notes": {
+      "type": "string"
+    },
+    "providers": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/provider"
+      }
+    }
+  },
+  "$defs": {
+    "provider": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enabled",
+        "provider",
+        "display_name",
+        "model",
+        "voice",
+        "auth",
+        "request",
+        "policy"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "provider": {
+          "type": "string"
+        },
+        "display_name": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "voice": {
+          "type": "string"
+        },
+        "sample_rate": {
+          "type": "integer"
+        },
+        "audio_format": {
+          "type": "string"
+        },
+        "auth": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "request": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "raw_text_only",
+            "external_frontend",
+            "llm_rewrite",
+            "ssml",
+            "manual_text_fix"
+          ],
+          "properties": {
+            "raw_text_only": {
+              "type": "boolean",
+              "const": true
+            },
+            "external_frontend": {
+              "type": "boolean",
+              "const": false
+            },
+            "llm_rewrite": {
+              "type": "boolean",
+              "const": false
+            },
+            "ssml": {
+              "type": "boolean",
+              "const": false
+            },
+            "manual_text_fix": {
+              "type": "boolean",
+              "const": false
+            }
+          }
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
+

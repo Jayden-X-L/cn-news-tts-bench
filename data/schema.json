@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/example/cn-news-tts-bench/data/schema.json",
+  "title": "CN-NewsTTS Bench Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "split", "source", "domain", "text", "targets"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_\\-]+$"
+    },
+    "split": {
+      "type": "string",
+      "enum": ["dev", "test_public", "test_hidden"]
+    },
+    "source": {
+      "type": "string",
+      "enum": ["synthetic", "rewritten_news", "licensed_news"]
+    },
+    "domain": {
+      "type": "string",
+      "enum": ["general", "sports", "military", "finance", "tech", "auto", "international", "society"]
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "targets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/target"
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target_id", "span", "category", "positive_readings", "negative_readings"],
+      "properties": {
+        "target_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_\\-]+$"
+        },
+        "span": {
+          "type": "string",
+          "minLength": 1
+        },
+        "start": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "end": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "sports_score",
+            "range_hyphen",
+            "year_range",
+            "military_model",
+            "vehicle_model",
+            "abbreviation",
+            "brand_mixed",
+            "unit_symbol",
+            "percentage",
+            "decimal_number",
+            "generation_label",
+            "other_auto_evaluable",
+            "optional_homograph_polyphone"
+          ]
+        },
+        "group": {
+          "type": "string",
+          "enum": ["number", "entity", "abbreviation", "unit", "polyphone", "other"]
+        },
+        "positive_readings": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "negative_readings": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "auto_evaluable": {
+          "type": "boolean",
+          "default": true
+        },
+        "rationale": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
+

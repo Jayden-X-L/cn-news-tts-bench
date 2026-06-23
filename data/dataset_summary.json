@@ -1,0 +1,123 @@
+{
+  "version": "v0.1",
+  "generated_at": "2026-06-20",
+  "generator_seed": 20260620,
+  "license_note": "Synthetic news-style text for open benchmark development.",
+  "dev": {
+    "records": 200,
+    "targets": 252,
+    "auto_evaluable_targets": 248,
+    "optional_targets": 4,
+    "record_categories": {
+      "abbreviation": 26,
+      "brand_mixed": 16,
+      "generation_label": 8,
+      "military_model": 24,
+      "optional_homograph_polyphone": 4,
+      "percentage": 14,
+      "range_hyphen": 20,
+      "sports_score": 28,
+      "unit_symbol": 24,
+      "vehicle_model": 16,
+      "year_range": 20
+    },
+    "target_categories": {
+      "abbreviation": 26,
+      "brand_mixed": 16,
+      "generation_label": 8,
+      "military_model": 48,
+      "optional_homograph_polyphone": 4,
+      "percentage": 14,
+      "range_hyphen": 20,
+      "sports_score": 56,
+      "unit_symbol": 24,
+      "vehicle_model": 16,
+      "year_range": 20
+    },
+    "target_groups": {
+      "abbreviation": 26,
+      "entity": 80,
+      "number": 118,
+      "polyphone": 4,
+      "unit": 24
+    }
+  },
+  "test_public": {
+    "records": 800,
+    "targets": 1008,
+    "auto_evaluable_targets": 992,
+    "optional_targets": 16,
+    "record_categories": {
+      "abbreviation": 104,
+      "brand_mixed": 64,
+      "generation_label": 32,
+      "military_model": 96,
+      "optional_homograph_polyphone": 16,
+      "percentage": 56,
+      "range_hyphen": 80,
+      "sports_score": 112,
+      "unit_symbol": 96,
+      "vehicle_model": 64,
+      "year_range": 80
+    },
+    "target_categories": {
+      "abbreviation": 104,
+      "brand_mixed": 64,
+      "generation_label": 32,
+      "military_model": 192,
+      "optional_homograph_polyphone": 16,
+      "percentage": 56,
+      "range_hyphen": 80,
+      "sports_score": 224,
+      "unit_symbol": 96,
+      "vehicle_model": 64,
+      "year_range": 80
+    },
+    "target_groups": {
+      "abbreviation": 104,
+      "entity": 320,
+      "number": 472,
+      "polyphone": 16,
+      "unit": 96
+    }
+  },
+  "total": {
+    "records": 1000,
+    "targets": 1260,
+    "auto_evaluable_targets": 1240,
+    "optional_targets": 20,
+    "record_categories": {
+      "abbreviation": 130,
+      "brand_mixed": 80,
+      "generation_label": 40,
+      "military_model": 120,
+      "optional_homograph_polyphone": 20,
+      "percentage": 70,
+      "range_hyphen": 100,
+      "sports_score": 140,
+      "unit_symbol": 120,
+      "vehicle_model": 80,
+      "year_range": 100
+    },
+    "target_categories": {
+      "abbreviation": 130,
+      "brand_mixed": 80,
+      "generation_label": 40,
+      "military_model": 240,
+      "optional_homograph_polyphone": 20,
+      "percentage": 70,
+      "range_hyphen": 100,
+      "sports_score": 280,
+      "unit_symbol": 120,
+      "vehicle_model": 80,
+      "year_range": 100
+    },
+    "target_groups": {
+      "abbreviation": 130,
+      "entity": 400,
+      "number": 590,
+      "polyphone": 20,
+      "unit": 120
+    }
+  }
+}

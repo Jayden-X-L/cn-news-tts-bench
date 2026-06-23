@@ -1,0 +1,8 @@
+name,targets,correct,wrong,unknown,strict_auto_accuracy,unknown_rate
+auto,160,126,0,34,0.7875,0.2125
+finance,120,84,0,36,0.7,0.3
+general,80,80,0,0,1.0,0.0
+military,192,148,0,44,0.770833,0.229167
+society,32,32,0,0,1.0,0.0
+sports,224,113,0,111,0.504464,0.495536
+tech,184,167,0,17,0.907609,0.092391
