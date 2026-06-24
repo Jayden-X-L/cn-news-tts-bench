@@ -34,6 +34,20 @@ It is not MOS and not sentence-level WER/CER. It is a **target-level** benchmark
 | Data archive | [10.5281/zenodo.20822327](https://doi.org/10.5281/zenodo.20822327) |
 | Paper | [arXiv:2606.24714](https://arxiv.org/abs/2606.24714) |
 
+## High-Risk Misreading Examples
+
+These are not rare corner cases. They are meaning-changing pronunciation errors that show up in Chinese news reading. CN-NewsTTS Bench decomposes them into target-level positive and negative reading patterns, so the leaderboard can identify which target was misread instead of only reporting a sentence-level average.
+
+| Written target | Expected news reading | Typical wrong reading | Meaning drift |
+|---|---|---|---|
+| `117-116` | `一百一十七比一百一十六` | `一百一十七到一百一十六`, `一百一十七负一百一十六` | score becomes range or subtraction |
+| `苏-27` | `苏二十七`, `苏二七` | `苏负二十七`, `苏杠二十七` | aircraft model becomes math expression |
+| `2028-2030年` | `二零二八到二零三零年` | `二零二八负二零三零年` | year range becomes negative expression |
+| `3.5%` | `百分之三点五` | `三点五百分号`, `三点五个百分点` | percent, percentage-point, and symbol readings are confused |
+| `80后` | `八零后` | `八十后` | generation label becomes an ordinary two-digit number |
+| `620N·m` | `六百二十牛米` | `六百二十恩点米`, `六百二十N点m` | physical unit becomes a letter string |
+| `AI` / `CEO` | `A I`, `C E O` | `人工智能`, `首席执行官` | original abbreviation is expanded into Chinese |
+
 ## Why This Benchmark Exists
 
 Chinese news text contains many surface forms that are uncommon in ordinary prose but frequent in spoken news: scores, hyphens, ranges, model names, unit symbols, percentages, English abbreviations, and mixed Chinese-Latin-digit names. These forms are usually clear to human editors, but raw-input TTS systems often normalize them incorrectly.
@@ -83,16 +97,16 @@ ASR ensemble: MiMo API ASR + SenseVoiceSmall + Paraformer-zh.
 
 ## Task Definition
 
-Each sample is a short Chinese news-style sentence containing one or more pronunciation-risk targets:
+Each sample is a short Chinese news-style sentence containing one or more pronunciation-risk targets. Each target includes acceptable readings and known-bad readings; the scorer evaluates these key readings at target level:
 
-| Surface form | Risk |
-|---|---|
-| `117-116` | a sports score may be read as a range |
-| `苏-27` | a model name may be read as a negative number |
-| `80后` | a generation label may be read as an ordinary number |
-| `3.5%` | percentage and decimal reading may be unstable |
-| `620N·m` | unit symbols may be spelled letter by letter |
-| `AI` | English abbreviations may be normalized incorrectly |
+| Target | Positive reading examples | Negative reading examples |
+|---|---|---|
+| `117-116` | `一百一十七比一百一十六`, `一一七比一一六` | `一百一十七到一百一十六`, `一百一十七负一百一十六` |
+| `苏-27` | `苏二十七`, `苏二七` | `苏负二十七`, `苏杠二十七`, `苏减二十七` |
+| `80后` | `八零后` | `八十后` |
+| `3.5%` | `百分之三点五` | `三点五百分号`, `三点五个百分点` |
+| `620N·m` | `六百二十牛米` | `六百二十恩点米`, `六百二十N点m` |
+| `AI` | `AI`, `A I` | `人工智能` |
 
 The Raw Input Product Track allows only the TTS provider's default processing. It does not allow external rule frontends, LLM rewrites, SSML pronunciation hints, or manual edits to benchmark text. Provider-internal normalization is part of the evaluated product behavior.
 
