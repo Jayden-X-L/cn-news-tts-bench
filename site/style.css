@@ -554,6 +554,7 @@ tr:last-child td {
   display: grid;
   grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
   gap: 12px;
+  align-items: start;
 }
 
 .protocol-list,
@@ -652,7 +653,7 @@ tr:last-child td {
 }
 
 .resource-grid {
-  align-items: stretch;
+  align-items: start;
 }
 
 .resource-list {
