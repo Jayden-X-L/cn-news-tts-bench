@@ -554,14 +554,23 @@ tr:last-child td {
   display: grid;
   grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
   gap: 12px;
-  align-items: start;
+  align-items: stretch;
+}
+
+.grid-two > .panel {
+  height: 100%;
 }
 
 .protocol-list,
+.protocol-extra,
 .model-list,
 .case-grid,
 .resource-list {
   padding: 16px 20px 20px;
+}
+
+.protocol-list {
+  padding-bottom: 8px;
 }
 
 .protocol-item {
@@ -596,6 +605,46 @@ tr:last-child td {
 
 .protocol-source,
 .model-row span {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.protocol-extra {
+  padding-top: 0;
+}
+
+.protocol-extra-title {
+  margin: 6px 0 10px;
+  color: var(--amber);
+  font-size: 12px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.protocol-extra-grid {
+  display: grid;
+  gap: 8px;
+}
+
+.protocol-extra-row {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  border: 1px solid rgba(40, 69, 94, .10);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, .64);
+}
+
+.protocol-extra-row strong {
+  color: #10202b;
+  font-size: 13px;
+  font-weight: 820;
+}
+
+.protocol-extra-row span {
   color: var(--muted);
   font-size: 13px;
   line-height: 1.45;
@@ -653,7 +702,7 @@ tr:last-child td {
 }
 
 .resource-grid {
-  align-items: start;
+  align-items: stretch;
 }
 
 .resource-list {
@@ -780,6 +829,7 @@ footer {
   .section-heading,
   .background-grid,
   .protocol-list,
+  .protocol-extra,
   .model-list,
   .case-grid,
   .resource-list {
@@ -814,6 +864,11 @@ footer {
   }
 
   .model-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .protocol-extra-row {
     grid-template-columns: 1fr;
     gap: 4px;
   }
