@@ -584,10 +584,12 @@ tr:last-child td {
   grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
   gap: 12px;
   align-items: stretch;
+  margin-top: 12px;
 }
 
 .grid-two > .panel {
   height: 100%;
+  margin-top: 0;
 }
 
 .protocol-list,
