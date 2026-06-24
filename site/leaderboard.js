@@ -16,7 +16,7 @@ const copy = {
     backgroundNote:
       "The failure is usually not a vague quality issue. A single symbol can flip the spoken meaning.",
     backgroundBody:
-      "Chinese news is full of scores, hyphenated names, ranges, model numbers, unit symbols, percentages, abbreviations, and mixed-script product names. Human editors read these forms by news convention, but raw TTS systems often normalize them as ordinary text. This benchmark turns those real listening failures into explicit targets and scores whether each target was read correctly.",
+      "CN-NewsTTS Bench is motivated by real online feedback observed by the author while working on AI-news podcast narration at NetEase Cloud Music. In raw TTS input, compact Chinese-news forms such as scores, model names, unit symbols, hyphens, percentages, and English abbreviations can be read with semantic errors: 苏-27 as 'Su negative 27', 96-91 as a range, or 620N·m letter by letter. The released benchmark contains reproducible news-style test sets and automatic evaluation protocols only; it does not include user data, internal business data, online logs, or unpublished content.",
     backgroundTokens: ["96-91", "苏-27", "2028-2030年", "620N·m", "3.5%", "80后", "AI", "小米SU7"],
     leaderboardKicker: "Public leaderboard",
     leaderboardTitle: "v0.1 Raw Input Product Track",
@@ -71,7 +71,7 @@ const copy = {
     backgroundNote:
       "这不是笼统的音质问题。一个符号、单位或连字符读错，就可能改变新闻含义。",
     backgroundBody:
-      "中文新闻里高频出现比分、连字符、区间、型号、单位符号、百分比、英文缩写和中英数混排名称。人类编辑通常知道这些写法该怎么读，但裸 TTS 很容易按通用文本归一化读错。这个 benchmark 把这些真实收听场景里的错读点变成明确 target，逐个判断模型是否读对。",
+      "CN-NewsTTS Bench 起源于作者在网易云音乐负责 AI 资讯播客期间遇到的真实线上播报问题反馈。我们观察到，中文新闻文本中的比分、型号、单位、连字符、百分号、英文缩写等紧凑书面表达，在未经外部规则前端、LLM 改写、SSML 或人工修正而直接输入 TTS 时，容易被读成语义错误的形式。例如：苏-27 被读成“苏负二十七”，96-91 被读成范围，620N·m 被逐字母或按符号读出。本 benchmark 发布的是公开、可复现的新闻式测试集和自动评估协议，不包含用户数据、内部业务数据、线上日志或未公开内容。",
     backgroundTokens: ["96-91", "苏-27", "2028-2030年", "620N·m", "3.5%", "80后", "AI", "小米SU7"],
     leaderboardKicker: "公开榜单",
     leaderboardTitle: "v0.1 Raw Input Product Track",

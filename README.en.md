@@ -36,6 +36,10 @@ It is not MOS and not sentence-level WER/CER. It is a **target-level** benchmark
 
 ## Why This Benchmark Exists
 
+CN-NewsTTS Bench is motivated by real online feedback observed by the author while working on AI-news podcast narration at NetEase Cloud Music. In raw TTS input, compact Chinese-news forms such as scores, model names, unit symbols, hyphens, percentages, and English abbreviations can be read with semantic errors: `苏-27` as “苏负二十七”, `96-91` as a range, or `620N·m` letter by letter or as a symbol sequence.
+
+The released benchmark contains public, reproducible news-style test sets and automatic evaluation protocols only. It does not include user data, internal business data, online logs, or unpublished content.
+
 Chinese news text contains many surface forms that are uncommon in ordinary prose but frequent in spoken news: scores, hyphens, ranges, model names, unit symbols, percentages, English abbreviations, and mixed Chinese-Latin-digit names. These forms are usually clear to human editors, but raw-input TTS systems often normalize them incorrectly.
 
 Such errors are not just naturalness problems. They can change the meaning of the news item: a score may be read as a range, an aircraft model may be read as a negative number, `80后` may be read as "eighty-hou", and unit symbols may be spelled out letter by letter. CN-NewsTTS Bench measures this product-facing capability with an open, reproducible, automatic protocol.
