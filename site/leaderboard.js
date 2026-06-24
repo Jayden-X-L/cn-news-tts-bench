@@ -33,13 +33,8 @@ const copy = {
     thUnknown: "Unknown",
     protocolKicker: "Evaluation protocol",
     protocolTitle: "Three-ASR target voting",
-    protocolExtraTitle: "Scoring contract",
-    protocolExtra: [
-      ["Input", "Same raw Chinese news sentence for every TTS system."],
-      ["Decision", "A target is correct only when the ASR routes match an allowed positive reading."],
-      ["Strict Acc", "Unknown targets remain in the denominator."],
-      ["Forbidden", "No external frontend, LLM rewrite, SSML, or manual correction."]
-    ],
+    protocolExtraTitle: "Scoring constraints",
+    protocolExtra: ["Raw input only", "Positive/negative target match", "Unknown kept in strict denominator"],
     modelKicker: "Systems",
     modelTitle: "Model and API sources",
     examplesKicker: "High-risk cases",
@@ -94,12 +89,7 @@ const copy = {
     protocolKicker: "评估协议",
     protocolTitle: "三路 ASR target 投票",
     protocolExtraTitle: "评分约束",
-    protocolExtra: [
-      ["输入", "每个 TTS 系统接收同一段原始中文新闻短句。"],
-      ["判定", "ASR 路线命中允许的 positive reading，target 才算 correct。"],
-      ["Strict Acc", "Unknown target 保留在分母中。"],
-      ["禁止", "不使用外部规则前端、LLM 改写、SSML 或人工修正。"]
-    ],
+    protocolExtra: ["只给原始文本", "正/负读法 target 匹配", "Unknown 保留在 strict 分母"],
     modelKicker: "模型信息",
     modelTitle: "模型与 API 来源",
     examplesKicker: "高风险错读示例",
@@ -264,13 +254,8 @@ function renderProtocol(data) {
   if (extra) {
     extra.innerHTML = `
       <div class="protocol-extra-title">${escapeHtml(t.protocolExtraTitle)}</div>
-      <div class="protocol-extra-grid">
-        ${t.protocolExtra.map(([label, value]) => `
-          <div class="protocol-extra-row">
-            <strong>${escapeHtml(label)}</strong>
-            <span>${escapeHtml(value)}</span>
-          </div>
-        `).join("")}
+      <div class="protocol-chip-row">
+        ${t.protocolExtra.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
       </div>
     `;
   }

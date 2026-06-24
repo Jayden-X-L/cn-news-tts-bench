@@ -213,16 +213,45 @@ h2 {
 .link-button {
   display: inline-flex;
   align-items: center;
+  gap: 8px;
   border: 1px solid rgba(13, 148, 136, .20);
-  color: #17323b;
-  background: rgba(255, 255, 255, .76);
+  color: #10202b;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .98), rgba(246, 251, 250, .88));
   text-decoration: none;
+  box-shadow:
+    0 8px 22px rgba(24, 38, 52, .075),
+    inset 0 0 0 1px rgba(255, 255, 255, .62);
+  transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease, color .16s ease;
+}
+
+.link-button::after {
+  content: "↗";
+  color: var(--teal);
+  font-size: 12px;
+  line-height: 1;
+  opacity: .82;
+  transform: translateY(-1px);
 }
 
 .link-button:hover,
 .lang-button:hover {
   border-color: rgba(13, 148, 136, .42);
   color: #07151b;
+}
+
+.link-button:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 12px 28px rgba(24, 38, 52, .12),
+    0 0 0 3px rgba(13, 148, 136, .08),
+    inset 0 0 0 1px rgba(255, 255, 255, .80);
+}
+
+.link-button:focus-visible,
+.lang-button:focus-visible {
+  outline: 3px solid rgba(59, 91, 219, .26);
+  outline-offset: 2px;
 }
 
 .score-visual {
@@ -622,32 +651,24 @@ tr:last-child td {
   text-transform: uppercase;
 }
 
-.protocol-extra-grid {
-  display: grid;
+.protocol-chip-row {
+  display: flex;
+  flex-wrap: wrap;
   gap: 8px;
 }
 
-.protocol-extra-row {
-  display: grid;
-  grid-template-columns: 96px minmax(0, 1fr);
-  gap: 10px;
-  align-items: start;
-  border: 1px solid rgba(40, 69, 94, .10);
+.protocol-chip-row span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  border: 1px solid rgba(13, 148, 136, .18);
   border-radius: 8px;
-  padding: 10px 12px;
-  background: rgba(255, 255, 255, .64);
-}
-
-.protocol-extra-row strong {
-  color: #10202b;
-  font-size: 13px;
-  font-weight: 820;
-}
-
-.protocol-extra-row span {
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.45;
+  padding: 0 10px;
+  color: #0f3d3a;
+  background: rgba(13, 148, 136, .065);
+  font-size: 12px;
+  font-weight: 760;
+  line-height: 1.35;
 }
 
 .model-row {
@@ -864,11 +885,6 @@ footer {
   }
 
   .model-row {
-    grid-template-columns: 1fr;
-    gap: 4px;
-  }
-
-  .protocol-extra-row {
     grid-template-columns: 1fr;
     gap: 4px;
   }
