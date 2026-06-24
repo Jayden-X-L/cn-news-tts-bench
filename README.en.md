@@ -21,7 +21,7 @@ CN-NewsTTS Bench v0.1 asks one narrow question:
 
 > Given the same raw Chinese news text, without external rule frontends, LLM rewriting, SSML, or manual text fixes, can a TTS product pronounce the target news expressions correctly?
 
-It is not MOS and not sentence-level WER/CER. It is a **target-level** benchmark for compact written expressions in Chinese news, such as `96-91`, `苏-27`, `2028-2030年`, `620N·m`, `3.5%`, `80后`, and `AI`.
+It is not MOS and not sentence-level WER/CER. It is a **target-level** benchmark for compact written expressions in Chinese news, such as `96-91`, `苏-27`, `2028-2030年`, `620N·m`, `3.5%`, `80后`, and `AI`. A typical failure is reading `苏-27` as `苏负二十七`, turning an aircraft model into a mathematical expression.
 
 | Signal | v0.1 |
 |---|---:|
@@ -33,6 +33,12 @@ It is not MOS and not sentence-level WER/CER. It is a **target-level** benchmark
 | Main metric | Strict Auto Accuracy |
 | Data archive | [10.5281/zenodo.20822327](https://doi.org/10.5281/zenodo.20822327) |
 | Paper | [arXiv:2606.24714](https://arxiv.org/abs/2606.24714) |
+
+## Why This Benchmark Exists
+
+Chinese news text contains many surface forms that are uncommon in ordinary prose but frequent in spoken news: scores, hyphens, ranges, model names, unit symbols, percentages, English abbreviations, and mixed Chinese-Latin-digit names. These forms are usually clear to human editors, but raw-input TTS systems often normalize them incorrectly.
+
+Such errors are not just naturalness problems. They can change the meaning of the news item: a score may be read as a range, an aircraft model may be read as a negative number, `80后` may be read as "eighty-hou", and unit symbols may be spelled out letter by letter. CN-NewsTTS Bench measures this product-facing capability with an open, reproducible, automatic protocol.
 
 ## High-Risk Misreading Examples
 
@@ -47,12 +53,6 @@ These are not rare corner cases. They are meaning-changing pronunciation errors 
 | `80后` | `八零后` | `八十后` | generation label becomes an ordinary two-digit number |
 | `620N·m` | `六百二十牛米` | `六百二十恩点米`, `六百二十N点m` | physical unit becomes a letter string |
 | `AI` / `CEO` | `A I`, `C E O` | `人工智能`, `首席执行官` | original abbreviation is expanded into Chinese |
-
-## Why This Benchmark Exists
-
-Chinese news text contains many surface forms that are uncommon in ordinary prose but frequent in spoken news: scores, hyphens, ranges, model names, unit symbols, percentages, English abbreviations, and mixed Chinese-Latin-digit names. These forms are usually clear to human editors, but raw-input TTS systems often normalize them incorrectly.
-
-Such errors are not just naturalness problems. They can change the meaning of the news item: a score may be read as a range, an aircraft model may be read as a negative number, `80后` may be read as "eighty-hou", and unit symbols may be spelled out letter by letter. CN-NewsTTS Bench measures this product-facing capability with an open, reproducible, automatic protocol.
 
 ## Released Resources
 
