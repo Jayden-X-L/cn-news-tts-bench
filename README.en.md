@@ -1,6 +1,6 @@
 # CN-NewsTTS Bench
 
-[中文说明](README.md) | [Preprint PDF](paper/cn_newstts_bench_preprint.pdf) | [Leaderboard](https://jayden-x-l.github.io/cn-news-tts-bench/) | [v0.1 Release](https://github.com/Jayden-X-L/cn-news-tts-bench/releases/tag/v0.1)
+[中文说明](README.md) | [arXiv:2606.24714](https://arxiv.org/abs/2606.24714) | [Preprint PDF](https://arxiv.org/pdf/2606.24714) | [Leaderboard](https://jayden-x-l.github.io/cn-news-tts-bench/) | [v0.1 Release](https://github.com/Jayden-X-L/cn-news-tts-bench/releases/tag/v0.1)
 
 CN-NewsTTS Bench is an open, target-level benchmark for evaluating whether **raw Chinese news TTS systems** pronounce high-risk news expressions correctly.
 
@@ -26,11 +26,13 @@ The v0.1 public release includes:
 - seven initial commercial/product TTS baselines
 - reproducibility checksums
 - a GitHub Pages leaderboard
-- an ICASSP-style preprint PDF
+- an arXiv preprint: [`arXiv:2606.24714`](https://arxiv.org/abs/2606.24714)
 
 Public leaderboard:
 
-- Preprint PDF: [paper/cn_newstts_bench_preprint.pdf](paper/cn_newstts_bench_preprint.pdf)
+- arXiv: [https://arxiv.org/abs/2606.24714](https://arxiv.org/abs/2606.24714)
+- Preprint PDF: [https://arxiv.org/pdf/2606.24714](https://arxiv.org/pdf/2606.24714)
+- Repository PDF copy: [paper/cn_newstts_bench_preprint.pdf](paper/cn_newstts_bench_preprint.pdf)
 - Preprint markdown: [paper/cn_newstts_bench_preprint.md](paper/cn_newstts_bench_preprint.md)
 - Web: [https://jayden-x-l.github.io/cn-news-tts-bench/](https://jayden-x-l.github.io/cn-news-tts-bench/)
 - CSV: [results/leaderboard.csv](results/leaderboard.csv)

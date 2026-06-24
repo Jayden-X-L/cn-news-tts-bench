@@ -10,7 +10,9 @@
     "audio_per_model": 800,
     "raw_track": true,
     "github": "https://github.com/Jayden-X-L/cn-news-tts-bench",
-    "release": "https://github.com/Jayden-X-L/cn-news-tts-bench/releases/tag/v0.1"
+    "release": "https://github.com/Jayden-X-L/cn-news-tts-bench/releases/tag/v0.1",
+    "arxiv": "https://arxiv.org/abs/2606.24714",
+    "preprint_pdf": "https://arxiv.org/pdf/2606.24714"
   },
   "asr_ensemble": [
     {

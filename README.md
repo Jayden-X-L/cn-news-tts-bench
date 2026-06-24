@@ -1,6 +1,6 @@
 # CN-NewsTTS Bench
 
-[English README](README.en.md) | [预印本 PDF](paper/cn_newstts_bench_preprint.pdf) | [公开榜单](https://jayden-x-l.github.io/cn-news-tts-bench/) | [v0.1 Release](https://github.com/Jayden-X-L/cn-news-tts-bench/releases/tag/v0.1)
+[English README](README.en.md) | [arXiv:2606.24714](https://arxiv.org/abs/2606.24714) | [预印本 PDF](https://arxiv.org/pdf/2606.24714) | [公开榜单](https://jayden-x-l.github.io/cn-news-tts-bench/) | [v0.1 Release](https://github.com/Jayden-X-L/cn-news-tts-bench/releases/tag/v0.1)
 
 CN-NewsTTS Bench 是一个面向中文新闻裸 TTS 模型的开源、自动化、target-level 读法准确率 benchmark。
 
@@ -26,11 +26,13 @@ v0.1 已包含并跑通：
 - 七家 TTS public baseline 结果
 - reproducibility checksum
 - GitHub Pages 静态榜单
-- ICASSP-style 预印本论文 PDF
+- arXiv 预印本论文：[`arXiv:2606.24714`](https://arxiv.org/abs/2606.24714)
 
 公开榜单：
 
-- Preprint PDF: [paper/cn_newstts_bench_preprint.pdf](paper/cn_newstts_bench_preprint.pdf)
+- arXiv: [https://arxiv.org/abs/2606.24714](https://arxiv.org/abs/2606.24714)
+- Preprint PDF: [https://arxiv.org/pdf/2606.24714](https://arxiv.org/pdf/2606.24714)
+- Repository PDF copy: [paper/cn_newstts_bench_preprint.pdf](paper/cn_newstts_bench_preprint.pdf)
 - Preprint markdown: [paper/cn_newstts_bench_preprint.md](paper/cn_newstts_bench_preprint.md)
 - Web: [https://jayden-x-l.github.io/cn-news-tts-bench/](https://jayden-x-l.github.io/cn-news-tts-bench/)
 - CSV: [results/leaderboard.csv](results/leaderboard.csv)

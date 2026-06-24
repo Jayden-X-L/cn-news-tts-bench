@@ -1,8 +1,10 @@
 # CN-NewsTTS Bench: A Target-Level Automatic Benchmark for Raw-Input Chinese News TTS Pronunciation
 
 Draft: 2026-06-23
-Status: preprint
-PDF: [cn_newstts_bench_preprint.pdf](cn_newstts_bench_preprint.pdf)
+Status: arXiv preprint, arXiv:2606.24714 [cs.CL]
+arXiv: [https://arxiv.org/abs/2606.24714](https://arxiv.org/abs/2606.24714)
+PDF: [https://arxiv.org/pdf/2606.24714](https://arxiv.org/pdf/2606.24714)
+Repository PDF copy: [cn_newstts_bench_preprint.pdf](cn_newstts_bench_preprint.pdf)
 
 ## Abstract
 
