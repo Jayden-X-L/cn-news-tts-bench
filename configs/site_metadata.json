@@ -14,7 +14,11 @@
     "arxiv": "https://arxiv.org/abs/2606.24714",
     "preprint_pdf": "https://arxiv.org/pdf/2606.24714",
     "zenodo": "https://doi.org/10.5281/zenodo.20822327",
-    "doi": "10.5281/zenodo.20822327"
+    "doi": "10.5281/zenodo.20822327",
+    "git_commit_packaged": "f76ff26a41b4480e6567d74df4dc9490234eb252",
+    "data_construction_date": "2026-06-20",
+    "tts_invocation_date": "2026-06-22",
+    "release_audit_date": "2026-06-23"
   },
   "asr_ensemble": [
     {
@@ -127,18 +131,38 @@
       "input": "东部队在第七轮冠军赛中以96-91险胜北方队，系列赛总比分来到4-3。",
       "expected_en": "Read hyphens as score separators: 96 to 91 as a score, 4 to 3 as a series score.",
       "expected_zh": "连字符应读作比分关系：九十六比九十一、四比三。",
-      "risk_en": "May be read as a range or subtraction.",
-      "risk_zh": "容易被读成范围或负号。"
+      "risk_en": "May be read as a range or subtraction: ninety-six to ninety-one, or ninety-six minus ninety-one.",
+      "risk_zh": "容易被读成范围或负号：九十六到九十一、九十六负九十一。"
     },
     {
       "category": "military_model",
       "category_en": "Military model",
       "category_zh": "军事型号",
       "input": "第1次演训期间，F-35与苏-27完成编队巡航和低空突防课目。",
-      "expected_en": "Model numbers should be read as model designators, not negative numbers.",
-      "expected_zh": "型号应按机型读法处理，不应读成负数。",
+      "expected_en": "Model numbers should be read as designators, e.g. Su twenty-seven rather than a negative number.",
+      "expected_zh": "型号应按机型读法处理，例如苏二十七或苏二七。",
       "risk_en": "苏-27 may become 'Su negative 27'.",
       "risk_zh": "苏-27 可能被读成“苏负二十七”。"
+    },
+    {
+      "category": "year_range",
+      "category_en": "Year range",
+      "category_zh": "年份区间",
+      "input": "公司预计2028-2030年产能继续提升。",
+      "expected_en": "Read as a year range: from 2028 to 2030.",
+      "expected_zh": "应读作年份区间：二零二八到二零三零年，或二零二八至二零三零年。",
+      "risk_en": "May be read as subtraction between two year numbers.",
+      "risk_zh": "可能被读成两个年份之间的负号。"
+    },
+    {
+      "category": "percentage",
+      "category_en": "Percentage",
+      "category_zh": "百分比",
+      "input": "A股早盘上涨3.5%，新能源板块成交额继续放大。",
+      "expected_en": "Read as a percentage: three point five percent.",
+      "expected_zh": "应读作百分之三点五。",
+      "risk_en": "May spell the percent sign or confuse it with percentage points.",
+      "risk_zh": "可能被读成“三点五百分号”或误读成百分点。"
     },
     {
       "category": "generation_label",
@@ -157,8 +181,18 @@
       "input": "该车型峰值扭矩达到620N·m，低速加速表现继续提升。",
       "expected_en": "N·m should be read as the torque unit newton-meter.",
       "expected_zh": "N·m 应读作牛米或牛顿米。",
-      "risk_en": "May be spelled letter by letter or normalized inconsistently.",
-      "risk_zh": "可能被逐字母读出或被不稳定归一化。"
+      "risk_en": "May be spelled letter by letter or read as an unstable dot expression.",
+      "risk_zh": "可能被读成“六百二十恩点米”或逐字母读出。"
+    },
+    {
+      "category": "abbreviation",
+      "category_en": "English abbreviation",
+      "category_zh": "英文缩写",
+      "input": "公司称 AI 和 CEO 相关议题仍是发布会重点。",
+      "expected_en": "AI and CEO should remain letter abbreviations in this news context.",
+      "expected_zh": "AI 和 CEO 在该新闻语境中应保持英文缩写读法。",
+      "risk_en": "May be expanded into Chinese terms and change the surface quotation.",
+      "risk_zh": "可能被误归一化为“人工智能”或“首席执行官”。"
     }
   ]
 }

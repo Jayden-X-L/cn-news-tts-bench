@@ -2,7 +2,7 @@ const copy = {
   en: {
     title: "Chinese News TTS Pronunciation Leaderboard",
     summary:
-      "An open, target-level benchmark for raw Chinese news TTS. Every system receives the same raw text; no external frontend, LLM rewrite, SSML, or manual fix is allowed in the main track.",
+      "An open, target-level benchmark for raw-input Chinese news TTS. We ask whether a product reads high-risk forms such as 苏-27 without turning them into meanings like 'Su negative 27'. No external frontend, LLM rewrite, SSML, or manual fix is allowed in the main track.",
     visualLabel: "Best Strict Auto Accuracy",
     visualRecords: "records",
     visualTargets: "targets",
@@ -19,7 +19,7 @@ const copy = {
       "Chinese news is full of scores, hyphenated names, ranges, model numbers, unit symbols, percentages, abbreviations, and mixed-script product names. Human editors read these forms by news convention, but raw TTS systems often normalize them as ordinary text. This benchmark turns those real listening failures into explicit targets and scores whether each target was read correctly.",
     backgroundTokens: ["96-91", "苏-27", "2028-2030年", "620N·m", "3.5%", "80后", "AI", "小米SU7"],
     leaderboardKicker: "Public leaderboard",
-    leaderboardTitle: "v0.1 raw model track",
+    leaderboardTitle: "v0.1 Raw Input Product Track",
     leaderboardNote:
       "Strict Acc counts unknown targets in the denominator. Higher is better; coverage shows how often the ASR ensemble can make a positive or negative target-level decision.",
     thRank: "Rank",
@@ -35,19 +35,27 @@ const copy = {
     protocolTitle: "Three-ASR target voting",
     modelKicker: "Systems",
     modelTitle: "Model and API sources",
-    examplesKicker: "Examples",
-    examplesTitle: "Target-level reading cases",
+    examplesKicker: "High-risk cases",
+    examplesTitle: "What the benchmark is listening for",
     examplesNote:
-      "The benchmark focuses on surface forms that are common in Chinese news but easy for a raw TTS system to normalize incorrectly.",
+      "These are not vague voice-quality issues. They are small surface forms where the wrong reading changes the information a listener receives.",
     expected: "Expected",
-    risk: "Risk",
+    risk: "Typical wrong reading",
+    archiveKicker: "Artifacts",
+    archiveTitle: "Zenodo data archive",
+    archiveNote:
+      "The DOI snapshot stores the generated audio packages and full ASR transcripts used for the v0.1 leaderboard.",
+    reproKicker: "Reproduce and cite",
+    reproTitle: "Open workflow",
+    reproNote:
+      "GitHub contains the fixed split, scorer, leaderboard code, release metadata, and checksums.",
     footer:
-      "Generated TTS audio is not included in this repository. Public scores are reproducible from the fixed ASR transcripts and scoring scripts in GitHub."
+      "GitHub hosts the benchmark code, scorer, fixed splits, and leaderboard. Generated audio and full ASR artifacts are archived on Zenodo under the DOI snapshot."
   },
   zh: {
     title: "中文新闻裸 TTS 读法准确率排行榜",
     summary:
-      "一个开源的 target-level 中文新闻 TTS 评测。所有系统接收同一份原始文本；主榜不允许外部规则前端、LLM 改写、SSML 或人工修正。",
+      "一个开源的 target-level 中文新闻 raw-input TTS 评测。我们关心产品能否把“苏-27”这类高风险写法读对，而不是读成“苏负二十七”。主榜不允许外部规则前端、LLM 改写、SSML 或人工修正。",
     visualLabel: "最高 Strict Auto Accuracy",
     visualRecords: "public 条",
     visualTargets: "targets",
@@ -64,7 +72,7 @@ const copy = {
       "中文新闻里高频出现比分、连字符、区间、型号、单位符号、百分比、英文缩写和中英数混排名称。人类编辑通常知道这些写法该怎么读，但裸 TTS 很容易按通用文本归一化读错。这个 benchmark 把这些真实收听场景里的错读点变成明确 target，逐个判断模型是否读对。",
     backgroundTokens: ["96-91", "苏-27", "2028-2030年", "620N·m", "3.5%", "80后", "AI", "小米SU7"],
     leaderboardKicker: "公开榜单",
-    leaderboardTitle: "v0.1 Raw Model Track",
+    leaderboardTitle: "v0.1 Raw Input Product Track",
     leaderboardNote:
       "Strict Acc 把 unknown 计入分母。Coverage 表示三路 ASR 能明确判定 correct/wrong 的比例。",
     thRank: "排名",
@@ -80,14 +88,22 @@ const copy = {
     protocolTitle: "三路 ASR target 投票",
     modelKicker: "模型信息",
     modelTitle: "模型与 API 来源",
-    examplesKicker: "示例",
-    examplesTitle: "Target-level 读法样例",
+    examplesKicker: "高风险错读示例",
+    examplesTitle: "这个 benchmark 到底在听什么",
     examplesNote:
-      "Benchmark 聚焦中文新闻中常见、但裸 TTS 容易归一化错误的表面形式。",
+      "这些不是笼统的“声音不好听”，而是很小的表面形式读错后会改变信息含义。",
     expected: "期望读法",
-    risk: "风险",
+    risk: "常见错读",
+    archiveKicker: "数据归档",
+    archiveTitle: "Zenodo 数据包",
+    archiveNote:
+      "DOI 快照保存 v0.1 榜单使用的生成音频包和完整 ASR 转写文件。",
+    reproKicker: "复现与引用",
+    reproTitle: "开源工作流",
+    reproNote:
+      "GitHub 保存固定 split、评分器、榜单代码、release metadata 和 checksum。",
     footer:
-      "本仓库不包含生成音频。公开分数可由固定 ASR transcript 和评分脚本复现。"
+      "GitHub 托管 benchmark 代码、评分器、固定 split 和榜单；生成音频与完整 ASR artifacts 归档在 Zenodo DOI 快照中。"
   }
 };
 
@@ -151,6 +167,12 @@ function renderStaticText(data) {
   setText("examples-kicker", t.examplesKicker);
   setText("examples-title", t.examplesTitle);
   setText("examples-note", t.examplesNote);
+  setText("archive-kicker", t.archiveKicker);
+  setText("archive-title", t.archiveTitle);
+  setText("archive-note", t.archiveNote);
+  setText("repro-kicker", t.reproKicker);
+  setText("repro-title", t.reproTitle);
+  setText("repro-note", t.reproNote);
   setText("footer-text", t.footer);
   setText("th-rank", t.thRank);
   setText("th-system", t.thSystem);
@@ -259,6 +281,101 @@ function renderExamples(data) {
   `).join("");
 }
 
+function renderResourceList(id, items) {
+  const list = document.getElementById(id);
+  if (!list) return;
+  list.innerHTML = items.map((item) => {
+    const label = item[`label_${currentLang}`] || item.label_en;
+    const detail = item[`detail_${currentLang}`] || item.detail_en || "";
+    const value = item.value || item.href || "";
+    const tag = item.href ? "a" : "div";
+    const attrs = item.href ? ` href="${escapeHtml(item.href)}"` : "";
+    return `
+      <${tag} class="resource-row"${attrs}>
+        <span>
+          <strong>${escapeHtml(label)}</strong>
+          <small>${escapeHtml(detail)}</small>
+        </span>
+        <code>${escapeHtml(value)}</code>
+      </${tag}>
+    `;
+  }).join("");
+}
+
+function renderResources(data) {
+  const benchmark = data.benchmark || {};
+  const github = benchmark.github || "https://github.com/Jayden-X-L/cn-news-tts-bench";
+  const release = benchmark.release || `${github}/releases/tag/v0.1`;
+  const zenodo = benchmark.zenodo || "https://doi.org/10.5281/zenodo.20822327";
+  const arxiv = benchmark.arxiv || "https://arxiv.org/abs/2606.24714";
+
+  renderResourceList("archive-list", [
+    {
+      label_en: "DOI snapshot",
+      label_zh: "DOI 快照",
+      detail_en: "Canonical archive for citation and long-term access.",
+      detail_zh: "用于引用和长期访问的规范数据归档。",
+      value: benchmark.doi || "10.5281/zenodo.20822327",
+      href: zenodo
+    },
+    {
+      label_en: "Audio packages",
+      label_zh: "音频包",
+      detail_en: "7 systems x 200 dev + 7 systems x 800 public-test wav files.",
+      detail_zh: "7 家系统 x 200 条 dev，加 7 家系统 x 800 条 public-test wav。",
+      value: "24 kHz mono wav"
+    },
+    {
+      label_en: "ASR transcripts",
+      label_zh: "ASR 转写",
+      detail_en: "Full MiMo API ASR, SenseVoiceSmall, and Paraformer-zh transcripts.",
+      detail_zh: "完整 MiMo API ASR、SenseVoiceSmall、Paraformer-zh 转写。",
+      value: "16,800 rows"
+    },
+    {
+      label_en: "Recorded dates",
+      label_zh: "记录日期",
+      detail_en: "Data construction / TTS invocation / release audit.",
+      detail_zh: "数据构造 / TTS 调用 / release 审计。",
+      value: `${benchmark.data_construction_date || "2026-06-20"} / ${benchmark.tts_invocation_date || "2026-06-22"} / ${benchmark.release_audit_date || "2026-06-23"}`
+    }
+  ]);
+
+  renderResourceList("repro-list", [
+    {
+      label_en: "GitHub repository",
+      label_zh: "GitHub 仓库",
+      detail_en: "Dataset split, scorer, leaderboard, and documentation.",
+      detail_zh: "数据 split、评分器、榜单和文档。",
+      value: "source",
+      href: github
+    },
+    {
+      label_en: "v0.1 release",
+      label_zh: "v0.1 Release",
+      detail_en: "Release metadata, audit notes, and checksums.",
+      detail_zh: "Release metadata、审计记录和 checksum。",
+      value: "release",
+      href: release
+    },
+    {
+      label_en: "Preprint",
+      label_zh: "预印本",
+      detail_en: "Benchmark paper and protocol analysis.",
+      detail_zh: "Benchmark 论文和评估协议分析。",
+      value: "arXiv:2606.24714",
+      href: arxiv
+    },
+    {
+      label_en: "Packaged commit",
+      label_zh: "打包 commit",
+      detail_en: "Exact Git commit recorded in the Zenodo metadata.",
+      detail_zh: "Zenodo metadata 记录的精确 Git commit。",
+      value: benchmark.git_commit_packaged || "f76ff26a41b4480e6567d74df4dc9490234eb252"
+    }
+  ]);
+}
+
 function drawSignalCanvas(data) {
   const canvas = document.getElementById("signal-canvas");
   const ctx = canvas?.getContext("2d");
@@ -342,6 +459,7 @@ function renderAll() {
   renderProtocol(leaderboardData);
   renderModels(leaderboardData);
   renderExamples(leaderboardData);
+  renderResources(leaderboardData);
   drawSignalCanvas(leaderboardData);
 }
 

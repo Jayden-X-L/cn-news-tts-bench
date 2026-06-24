@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f6f9fb">
   <title>CN-NewsTTS Bench 中文新闻 TTS 排行榜</title>
+  <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="%23f6f9fb"/><path d="M14 36h6V24h-6v12Zm10 10h6V14h-6v32Zm10-6h6V20h-6v20Zm10-8h6V28h-6v4Z" fill="%230d9488"/><path d="M11 50h42" stroke="%233b5bdb" stroke-width="4" stroke-linecap="round"/></svg>'>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,7 +15,7 @@
       <div class="hero-copy">
         <div class="hero-topline">
           <p class="eyebrow">CN-NewsTTS Bench · v0.1 public test</p>
-          <span class="live-chip">RAW MODEL TRACK</span>
+          <span class="live-chip">RAW INPUT PRODUCT TRACK</span>
         </div>
         <h1 id="title">中文新闻裸 TTS 读法准确率排行榜</h1>
         <p class="summary" id="summary"></p>
@@ -90,6 +91,17 @@
     <section class="panel">
       <div class="section-heading">
         <div>
+          <p class="section-kicker" id="examples-kicker"></p>
+          <h2 id="examples-title"></h2>
+        </div>
+        <p id="examples-note"></p>
+      </div>
+      <div class="case-grid" id="case-grid"></div>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading">
+        <div>
           <p class="section-kicker" id="leaderboard-kicker"></p>
           <h2 id="leaderboard-title"></h2>
         </div>
@@ -139,15 +151,28 @@
       </div>
     </section>
 
-    <section class="panel">
-      <div class="section-heading">
-        <div>
-          <p class="section-kicker" id="examples-kicker"></p>
-          <h2 id="examples-title"></h2>
+    <section class="grid-two resource-grid">
+      <div class="panel">
+        <div class="section-heading compact">
+          <div>
+            <p class="section-kicker" id="archive-kicker"></p>
+            <h2 id="archive-title"></h2>
+          </div>
+          <p id="archive-note"></p>
         </div>
-        <p id="examples-note"></p>
+        <div class="resource-list" id="archive-list"></div>
       </div>
-      <div class="case-grid" id="case-grid"></div>
+
+      <div class="panel">
+        <div class="section-heading compact">
+          <div>
+            <p class="section-kicker" id="repro-kicker"></p>
+            <h2 id="repro-title"></h2>
+          </div>
+          <p id="repro-note"></p>
+        </div>
+        <div class="resource-list" id="repro-list"></div>
+      </div>
     </section>
 
     <footer>

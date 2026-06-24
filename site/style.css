@@ -378,6 +378,10 @@ h2 {
   display: block;
 }
 
+.section-heading.compact > p {
+  margin-top: 8px;
+}
+
 .section-heading p {
   max-width: 560px;
   margin: 0;
@@ -554,7 +558,8 @@ tr:last-child td {
 
 .protocol-list,
 .model-list,
-.case-grid {
+.case-grid,
+.resource-list {
   padding: 16px 20px 20px;
 }
 
@@ -646,6 +651,72 @@ tr:last-child td {
   color: #263947;
 }
 
+.resource-grid {
+  align-items: stretch;
+}
+
+.resource-list {
+  display: grid;
+  gap: 10px;
+}
+
+.resource-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(150px, auto);
+  gap: 12px;
+  align-items: center;
+  min-height: 70px;
+  border: 1px solid rgba(40, 69, 94, .11);
+  border-radius: 8px;
+  padding: 13px 14px;
+  color: inherit;
+  background:
+    linear-gradient(90deg, rgba(13, 148, 136, .055), rgba(59, 91, 219, .025)),
+    rgba(255, 255, 255, .78);
+  text-decoration: none;
+}
+
+.resource-row[href]:hover {
+  border-color: rgba(13, 148, 136, .34);
+  background:
+    linear-gradient(90deg, rgba(13, 148, 136, .09), rgba(59, 91, 219, .045)),
+    rgba(255, 255, 255, .92);
+}
+
+.resource-row strong,
+.resource-row small,
+.resource-row code {
+  display: block;
+  min-width: 0;
+}
+
+.resource-row strong {
+  color: #10202b;
+  font-weight: 820;
+}
+
+.resource-row small {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.resource-row code {
+  justify-self: end;
+  max-width: 300px;
+  border: 1px solid rgba(13, 148, 136, .20);
+  border-radius: 8px;
+  padding: 7px 9px;
+  color: #0f3d3a;
+  background: rgba(255, 255, 255, .82);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 12px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  text-align: right;
+}
+
 footer {
   margin: 22px 0 0;
   color: var(--subtle);
@@ -709,7 +780,8 @@ footer {
   .background-grid,
   .protocol-list,
   .model-list,
-  .case-grid {
+  .case-grid,
+  .resource-list {
     padding-left: 14px;
     padding-right: 14px;
   }
@@ -743,6 +815,16 @@ footer {
   .model-row {
     grid-template-columns: 1fr;
     gap: 4px;
+  }
+
+  .resource-row {
+    grid-template-columns: 1fr;
+  }
+
+  .resource-row code {
+    justify-self: stretch;
+    max-width: none;
+    text-align: left;
   }
 
   th,
