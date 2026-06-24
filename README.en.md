@@ -15,34 +15,13 @@
 
 ---
 
-## 30-Second Overview
-
-CN-NewsTTS Bench v0.1 asks one narrow question:
-
-> Given the same raw Chinese news text, without external rule frontends, LLM rewriting, SSML, or manual text fixes, can a TTS product pronounce the target news expressions correctly?
-
-It is not MOS and not sentence-level WER/CER. It is a **target-level** benchmark for compact written expressions in Chinese news, such as `96-91`, `苏-27`, `2028-2030年`, `620N·m`, `3.5%`, `80后`, and `AI`. A typical failure is reading `苏-27` as `苏负二十七`, turning an aircraft model into a mathematical expression.
-
-| Signal | v0.1 |
-|---|---:|
-| Dev set | 200 records / 248 auto-evaluable targets |
-| Public test | 800 records / 992 auto-evaluable targets |
-| Initial systems | 7 commercial/product TTS systems |
-| Evaluation routes | MiMo API ASR + SenseVoiceSmall + Paraformer-zh |
-| Scoring unit | target-level positive/negative reading match |
-| Main metric | Strict Auto Accuracy |
-| Data archive | [10.5281/zenodo.20822327](https://doi.org/10.5281/zenodo.20822327) |
-| Paper | [arXiv:2606.24714](https://arxiv.org/abs/2606.24714) |
-
 ## Why This Benchmark Exists
 
-CN-NewsTTS Bench is motivated by real online feedback observed by the author while working on AI-news podcast narration at NetEase Cloud Music. In raw TTS input, compact Chinese-news forms such as scores, model names, unit symbols, hyphens, percentages, and English abbreviations can be read with semantic errors: `苏-27` as “苏负二十七”, `96-91` as a range, or `620N·m` letter by letter or as a symbol sequence.
+CN-NewsTTS Bench is motivated by real online feedback observed by the author while working on AI-news podcast narration at NetEase Cloud Music. In spoken Chinese news, frequent compact forms such as scores, model names, unit symbols, hyphens, percentages, English abbreviations, and mixed Chinese-Latin-digit names can be normalized by raw TTS input into a different meaning: `苏-27` may be read as “苏负二十七”, `96-91` as a range, and `620N·m` letter by letter or as a symbol sequence.
+
+These failures are not merely voice-quality issues; they change the information heard by listeners. CN-NewsTTS Bench therefore asks one narrow question: without external rule frontends, LLM rewriting, SSML, or manual text fixes, can a TTS product pronounce key Chinese-news targets correctly? It is not MOS and not sentence-level WER/CER, but a **target-level** automatic pronunciation-accuracy benchmark for raw-input Chinese news TTS.
 
 The released benchmark contains public, reproducible news-style test sets and automatic evaluation protocols only. It does not include user data, internal business data, online logs, or unpublished content.
-
-Chinese news text contains many surface forms that are uncommon in ordinary prose but frequent in spoken news: scores, hyphens, ranges, model names, unit symbols, percentages, English abbreviations, and mixed Chinese-Latin-digit names. These forms are usually clear to human editors, but raw-input TTS systems often normalize them incorrectly.
-
-Such errors are not just naturalness problems. They can change the meaning of the news item: a score may be read as a range, an aircraft model may be read as a negative number, `80后` may be read as "eighty-hou", and unit symbols may be spelled out letter by letter. CN-NewsTTS Bench measures this product-facing capability with an open, reproducible, automatic protocol.
 
 ## High-Risk Misreading Examples
 

@@ -15,34 +15,13 @@
 
 ---
 
-## 30 秒导览
-
-CN-NewsTTS Bench v0.1 只评估一个问题：
-
-> 给定同一段原始中文新闻文本，不使用外部规则前端、LLM 改写、SSML 或人工修正，TTS 产品能否把关键新闻读法读对？
-
-它不是 MOS，也不是整句 WER/CER。它是一个面向中文新闻紧凑书面表达的 **target-level** benchmark，专门看 `96-91`、`苏-27`、`2028-2030年`、`620N·m`、`3.5%`、`80后`、`AI` 这类高风险目标有没有读对。一个典型错误是把 `苏-27` 读成 `苏负二十七`，让军机型号变成数学表达。
-
-| Signal | v0.1 |
-|---|---:|
-| Dev set | 200 records / 248 auto-evaluable targets |
-| Public test | 800 records / 992 auto-evaluable targets |
-| Initial systems | 7 commercial/product TTS systems |
-| Evaluation routes | MiMo API ASR + SenseVoiceSmall + Paraformer-zh |
-| Scoring unit | target-level positive/negative reading match |
-| Main metric | Strict Auto Accuracy |
-| Data archive | [10.5281/zenodo.20822327](https://doi.org/10.5281/zenodo.20822327) |
-| Paper | [arXiv:2606.24714](https://arxiv.org/abs/2606.24714) |
-
 ## 为什么做这个 benchmark
 
-CN-NewsTTS Bench 起源于作者在网易云音乐负责 AI 资讯播客期间遇到的真实线上播报问题反馈。我们观察到，中文新闻文本中的比分、型号、单位、连字符、百分号、英文缩写等紧凑书面表达，在未经外部规则前端、LLM 改写、SSML 或人工修正而直接输入 TTS 时，容易被读成语义错误的形式。例如：`苏-27` 被读成“苏负二十七”，`96-91` 被读成范围，`620N·m` 被逐字母或按符号读出。
+CN-NewsTTS Bench 起源于作者在网易云音乐负责 AI 资讯播客期间遇到的真实线上播报问题反馈。我们观察到，中文新闻播报中频繁出现的比分、型号、单位、连字符、百分号、英文缩写和中英数混排名称，在直接输入 TTS 时，容易被通用文本归一化为另一种语义：`苏-27` 可能被读成“苏负二十七”，`96-91` 可能被读成范围，`620N·m` 可能被逐字母或按符号读出。
+
+这类错读不是单纯的“声音不好听”，而是信息含义被改变。因此，CN-NewsTTS Bench 只评估一个明确问题：在不使用外部规则前端、LLM 改写、SSML 或人工修正的条件下，TTS 产品能否把中文新闻中的关键读法目标读对。它不是 MOS，也不是整句 WER/CER，而是一个面向 raw-input 中文新闻 TTS 的 **target-level** 自动读法准确率 benchmark。
 
 本 benchmark 发布的是公开、可复现的新闻式测试集和自动评估协议，不包含用户数据、内部业务数据、线上日志或未公开内容。
-
-中文新闻文本里有大量普通文本很少连续出现、但新闻播报中非常高频的表面形式：比分、连字符、区间、型号、单位符号、百分比、英文缩写和中英数混排名称。它们对人类新闻编辑很清楚，但 raw-input TTS 往往会按通用文本归一化读错。
-
-这类错读不是单纯的“声音不好听”，而是会改变信息含义：比分可能被读成范围，机型可能被读成负数，`80后` 可能被读成“八十后”，单位符号可能被逐字母读出。CN-NewsTTS Bench 用公开、可复现、自动化的方式衡量各家 TTS 在中文新闻读法上的 product-facing 能力。
 
 ## 高风险错读示例
 
