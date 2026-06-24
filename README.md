@@ -1,6 +1,6 @@
 # CN-NewsTTS Bench
 
-[English README](README.en.md) | [arXiv:2606.24714](https://arxiv.org/abs/2606.24714) | [预印本 PDF](https://arxiv.org/pdf/2606.24714) | [公开榜单](https://jayden-x-l.github.io/cn-news-tts-bench/) | [v0.1 Release](https://github.com/Jayden-X-L/cn-news-tts-bench/releases/tag/v0.1)
+[English README](README.en.md) | [DOI:10.5281/zenodo.20822327](https://doi.org/10.5281/zenodo.20822327) | [arXiv:2606.24714](https://arxiv.org/abs/2606.24714) | [预印本 PDF](https://arxiv.org/pdf/2606.24714) | [公开榜单](https://jayden-x-l.github.io/cn-news-tts-bench/) | [v0.1 Release](https://github.com/Jayden-X-L/cn-news-tts-bench/releases/tag/v0.1)
 
 CN-NewsTTS Bench 是一个面向中文新闻裸 TTS 模型的开源、自动化、target-level 读法准确率 benchmark。
 
@@ -27,9 +27,11 @@ v0.1 已包含并跑通：
 - reproducibility checksum
 - GitHub Pages 静态榜单
 - arXiv 预印本论文：[`arXiv:2606.24714`](https://arxiv.org/abs/2606.24714)
+- Zenodo 数据归档：[`10.5281/zenodo.20822327`](https://doi.org/10.5281/zenodo.20822327)
 
 公开榜单：
 
+- Zenodo dataset: [https://doi.org/10.5281/zenodo.20822327](https://doi.org/10.5281/zenodo.20822327)
 - arXiv: [https://arxiv.org/abs/2606.24714](https://arxiv.org/abs/2606.24714)
 - Preprint PDF: [https://arxiv.org/pdf/2606.24714](https://arxiv.org/pdf/2606.24714)
 - Repository PDF copy: [paper/cn_newstts_bench_preprint.pdf](paper/cn_newstts_bench_preprint.pdf)

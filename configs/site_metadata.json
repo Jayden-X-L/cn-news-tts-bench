@@ -12,7 +12,9 @@
     "github": "https://github.com/Jayden-X-L/cn-news-tts-bench",
     "release": "https://github.com/Jayden-X-L/cn-news-tts-bench/releases/tag/v0.1",
     "arxiv": "https://arxiv.org/abs/2606.24714",
-    "preprint_pdf": "https://arxiv.org/pdf/2606.24714"
+    "preprint_pdf": "https://arxiv.org/pdf/2606.24714",
+    "zenodo": "https://doi.org/10.5281/zenodo.20822327",
+    "doi": "10.5281/zenodo.20822327"
   },
   "asr_ensemble": [
     {

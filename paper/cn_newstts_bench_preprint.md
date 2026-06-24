@@ -4,6 +4,7 @@ Draft: 2026-06-23
 Status: arXiv preprint, arXiv:2606.24714 [cs.CL]
 arXiv: [https://arxiv.org/abs/2606.24714](https://arxiv.org/abs/2606.24714)
 PDF: [https://arxiv.org/pdf/2606.24714](https://arxiv.org/pdf/2606.24714)
+Zenodo dataset: [https://doi.org/10.5281/zenodo.20822327](https://doi.org/10.5281/zenodo.20822327)
 Repository PDF copy: [cn_newstts_bench_preprint.pdf](cn_newstts_bench_preprint.pdf)
 
 ## Abstract
