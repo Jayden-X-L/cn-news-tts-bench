@@ -1,43 +1,69 @@
 # CN-NewsTTS Bench
 
-[English README](README.en.md) | [DOI:10.5281/zenodo.20822327](https://doi.org/10.5281/zenodo.20822327) | [arXiv:2606.24714](https://arxiv.org/abs/2606.24714) | [公开榜单](https://jayden-x-l.github.io/cn-news-tts-bench/) | [v0.1 Release](https://github.com/Jayden-X-L/cn-news-tts-bench/releases/tag/v0.1)
+<div align="center">
 
-CN-NewsTTS Bench 是一个面向中文新闻裸 TTS 模型的开源、自动化、target-level 读法准确率 benchmark。
+**面向中文新闻 raw-input TTS 的 target-level 自动读法准确率基准**
 
-本 benchmark 只评估一个问题：
+[![arXiv](https://img.shields.io/badge/arXiv-2606.24714-b31b1b?style=for-the-badge)](https://arxiv.org/abs/2606.24714)
+[![Zenodo DOI](https://img.shields.io/badge/Zenodo-10.5281%2Fzenodo.20822327-1682D4?style=for-the-badge)](https://doi.org/10.5281/zenodo.20822327)
+[![Leaderboard](https://img.shields.io/badge/Leaderboard-GitHub%20Pages-00A3FF?style=for-the-badge)](https://jayden-x-l.github.io/cn-news-tts-bench/)
+[![Release](https://img.shields.io/badge/Release-v0.1-16A34A?style=for-the-badge)](https://github.com/Jayden-X-L/cn-news-tts-bench/releases/tag/v0.1)
 
-> 给定同一段原始中文新闻文本，不使用外部规则前端、LLM 改写、SSML 或人工修正，TTS 模型自身能否把关键新闻读法读对？
+[English README](README.en.md) | [公开榜单](https://jayden-x-l.github.io/cn-news-tts-bench/) | [论文](https://arxiv.org/abs/2606.24714) | [数据归档](https://doi.org/10.5281/zenodo.20822327)
+
+</div>
+
+---
+
+## 30 秒导览
+
+CN-NewsTTS Bench v0.1 只评估一个问题：
+
+> 给定同一段原始中文新闻文本，不使用外部规则前端、LLM 改写、SSML 或人工修正，TTS 产品能否把关键新闻读法读对？
+
+它不是 MOS，也不是整句 WER/CER。它是一个面向中文新闻紧凑书面表达的 **target-level** benchmark，专门看 `96-91`、`苏-27`、`2028-2030年`、`620N·m`、`3.5%`、`80后`、`AI` 这类高风险目标有没有读对。
+
+| Signal | v0.1 |
+|---|---:|
+| Dev set | 200 records / 248 auto-evaluable targets |
+| Public test | 800 records / 992 auto-evaluable targets |
+| Initial systems | 7 commercial/product TTS systems |
+| Evaluation routes | MiMo API ASR + SenseVoiceSmall + Paraformer-zh |
+| Scoring unit | target-level positive/negative reading match |
+| Main metric | Strict Auto Accuracy |
+| Data archive | [10.5281/zenodo.20822327](https://doi.org/10.5281/zenodo.20822327) |
+| Paper | [arXiv:2606.24714](https://arxiv.org/abs/2606.24714) |
 
 ## 为什么做这个 benchmark
 
-中文新闻文本里有大量普通文本很少连续出现、但新闻播报中非常高频的表面形式：比分、连字符、区间、型号、单位符号、百分比、英文缩写和中英数混排名称。例如 `96-91`、`苏-27`、`2028-2030年`、`620N·m`、`3.5%`、`80后`。这些写法对人类新闻编辑通常很清楚，但裸 TTS 很容易按通用文本归一化读错。
+中文新闻文本里有大量普通文本很少连续出现、但新闻播报中非常高频的表面形式：比分、连字符、区间、型号、单位符号、百分比、英文缩写和中英数混排名称。它们对人类新闻编辑很清楚，但 raw-input TTS 往往会按通用文本归一化读错。
 
-这类错读不是单纯的“声音不好听”，而是会改变信息含义：比分可能被读成范围，机型可能被读成负数，`80后` 可能被读成“八十后”，单位符号可能被逐字母读出。我们做这个 benchmark，是为了用公开、可复现、自动化的方式衡量各家 TTS 模型在真实中文新闻读法上的裸模型能力。
+这类错读不是单纯的“声音不好听”，而是会改变信息含义：比分可能被读成范围，机型可能被读成负数，`80后` 可能被读成“八十后”，单位符号可能被逐字母读出。CN-NewsTTS Bench 用公开、可复现、自动化的方式衡量各家 TTS 在中文新闻读法上的 product-facing 能力。
 
-## v0.1 状态
+## 发布内容
 
-v0.1 已包含并跑通：
+| Resource | Location | 用途 |
+|---|---|---|
+| Dataset / schema | [data/](data/) | dev/public test 文本、target 标注和数据 schema |
+| Scorer / validators | [scripts/](scripts/) | 数据校验、target-level 评分、榜单聚合 |
+| Public ASR transcripts | [results/asr_transcripts/public_test/](results/asr_transcripts/public_test/) | 三路固定 public ASR transcript |
+| Public ASR results | [results/asr_results/public_test/](results/asr_results/public_test/) | 七家 TTS 的合并 ASR 结果 |
+| Leaderboard data | [results/leaderboard.csv](results/leaderboard.csv), [results/leaderboard.json](results/leaderboard.json) | 可机器读取的榜单结果 |
+| Web leaderboard | [GitHub Pages](https://jayden-x-l.github.io/cn-news-tts-bench/) | 在线公开榜单 |
+| Full archive | [Zenodo DOI](https://doi.org/10.5281/zenodo.20822327) | 音频包、完整 ASR 转写、核心复现包 |
+| Paper | [arXiv:2606.24714](https://arxiv.org/abs/2606.24714) | 方法、实验和局限性说明 |
 
-- dev set：200 条
-- public test set：800 条
-- public test：992 个 auto-evaluable targets
-- 三路固定 public ASR transcript
-- target-level 三 ASR 投票评分脚本
-- 七家 TTS public baseline 结果
-- reproducibility checksum
-- GitHub Pages 静态榜单
-- arXiv 预印本论文：[`arXiv:2606.24714`](https://arxiv.org/abs/2606.24714)
-- Zenodo 数据归档：[`10.5281/zenodo.20822327`](https://doi.org/10.5281/zenodo.20822327)
+Zenodo v0.1 归档包含：
 
-公开榜单：
+| File | 内容 |
+|---|---|
+| `cn-news-tts-bench-v0.1-core.zip` | GitHub 核心复现包 |
+| `cn-news-tts-bench-v0.1-asr-transcripts-full.zip` | dev/public test 完整 ASR 转写与评分产物 |
+| `cn-news-tts-bench-v0.1-audio-dev-wav24k-mono.zip` | 7 家 TTS x 200 dev records = 1,400 wav files |
+| `cn-news-tts-bench-v0.1-audio-public-test-wav24k-mono.zip` | 7 家 TTS x 800 public-test records = 5,600 wav files |
+| `SHA256SUMS` | Zenodo 上传文件校验和 |
 
-- Zenodo dataset: [https://doi.org/10.5281/zenodo.20822327](https://doi.org/10.5281/zenodo.20822327)
-- arXiv: [https://arxiv.org/abs/2606.24714](https://arxiv.org/abs/2606.24714)
-- Preprint markdown: [paper/cn_newstts_bench_preprint.md](paper/cn_newstts_bench_preprint.md)
-- Web: [https://jayden-x-l.github.io/cn-news-tts-bench/](https://jayden-x-l.github.io/cn-news-tts-bench/)
-- CSV: [results/leaderboard.csv](results/leaderboard.csv)
-- JSON: [results/leaderboard.json](results/leaderboard.json)
-- Release audit: [docs/release_v0.1_audit.md](docs/release_v0.1_audit.md)
+音频均为 canonical 24 kHz mono wav；provider 返回的原始重复音频不包含在归档中。
 
 ## v0.1 Public Test Leaderboard
 
@@ -53,20 +79,22 @@ ASR ensemble：MiMo API ASR + SenseVoiceSmall + Paraformer-zh。
 | 6 | MiMo TTS | 0.275 | 0.628 | 0.438 | 273 | 350 | 369 |
 | 7 | AWS Polly | 0.244 | 0.570 | 0.428 | 242 | 323 | 427 |
 
-`Strict Acc = correct / all auto-evaluable targets`。`unknown` 不从主榜分母里删除。
+`Strict Acc = correct / all_auto_evaluable_targets`。`unknown` 不从主榜分母里删除。
 
 ## 任务定义
 
 每条样本是一段中文新闻风格短句，包含一个或多个读法风险目标，例如：
 
-- `117-116`
-- `苏-27`
-- `80后`
-- `3.5%`
-- `N·m`
-- `AI`
+| Surface form | 风险 |
+|---|---|
+| `117-116` | 比分可能被读成范围 |
+| `苏-27` | 型号可能被读成负数 |
+| `80后` | 代际标签可能被读成普通数字 |
+| `3.5%` | 百分比和小数读法可能不稳定 |
+| `620N·m` | 单位符号可能被逐字母读出 |
+| `AI` | 英文缩写可能被误归一化 |
 
-参评系统需要对每条输入文本生成一段音频。Raw Model Track 只允许 TTS provider 自身默认处理，不允许外部规则前端、LLM 改写、SSML pronunciation hint 或人工修改 benchmark 文本。
+Raw Input Product Track 只允许 TTS provider 自身默认处理，不允许外部规则前端、LLM 改写、SSML pronunciation hint 或人工修改 benchmark 文本。Provider 内部 normalization 视为被测产品行为的一部分。
 
 ## 数据规模
 
@@ -76,11 +104,20 @@ ASR ensemble：MiMo API ASR + SenseVoiceSmall + Paraformer-zh。
 | test_public | 800 | 1008 | 992 | 16 |
 | total | 1000 | 1260 | 1240 | 20 |
 
-详见 [docs/dataset_v0.1.md](docs/dataset_v0.1.md)。
+核心文件：
+
+```text
+data/dev.jsonl
+data/test_public.jsonl
+data/dataset_summary.json
+data/schema.json
+```
+
+数据说明见 [docs/dataset_v0.1.md](docs/dataset_v0.1.md)。
 
 ## 评分协议
 
-v0.1 使用三路 ASR：
+v0.1 使用三路固定 ASR：
 
 | ASR route | Public transcript file |
 |---|---|
@@ -88,46 +125,112 @@ v0.1 使用三路 ASR：
 | SenseVoiceSmall | [results/asr_transcripts/public_test/sensevoice_small.jsonl](results/asr_transcripts/public_test/sensevoice_small.jsonl) |
 | Paraformer-zh | [results/asr_transcripts/public_test/paraformer_zh.jsonl](results/asr_transcripts/public_test/paraformer_zh.jsonl) |
 
-对每个 target、每条 ASR transcript，评分器匹配 positive readings 和 negative readings，并做三 ASR 投票：
+对每个 target、每条 ASR transcript，评分器匹配 positive readings 和 negative readings，并做三路投票：
 
-- 至少两路 `correct` -> `correct`
-- 至少两路 `wrong` -> `wrong`
-- 其他情况 -> `unknown`
+| Route decisions | Final decision |
+|---|---|
+| 至少两路 `correct` | `correct` |
+| 至少两路 `wrong` | `wrong` |
+| 其他情况 | `unknown` |
 
 主指标：
 
 ```text
 Strict Auto Accuracy = correct / all_auto_evaluable_targets
+Resolved Accuracy    = correct / (correct + wrong)
+Coverage             = (correct + wrong) / all_auto_evaluable_targets
+Unknown Rate         = unknown / all_auto_evaluable_targets
 ```
 
-辅助指标：
+完整协议见 [docs/scoring.md](docs/scoring.md)。
 
-- Resolved Accuracy = correct / (correct + wrong)
-- Coverage = (correct + wrong) / all_auto_evaluable_targets
-- Unknown Rate = unknown / all_auto_evaluable_targets
-
-## 复现
+## 快速复现
 
 ```bash
+git clone https://github.com/Jayden-X-L/cn-news-tts-bench.git
+cd cn-news-tts-bench
+
 python3 scripts/validate_dataset.py data/dev.jsonl
 python3 scripts/validate_dataset.py data/test_public.jsonl
 
 python3 scripts/score_submission.py \
   --dataset data/test_public.jsonl \
-  --asr-results results/asr_results/public_test/{model_id}.asr.jsonl \
-  --model-id {model_id} \
-  --output-dir results/per_model_public_test
+  --asr-results results/asr_results/public_test/volcengine_tts.asr.jsonl \
+  --model-id volcengine_tts \
+  --output-dir /tmp/cn-news-tts-repro
 
 python3 scripts/aggregate_leaderboard.py \
   --per-model-dir results/per_model_public_test \
-  --results-dir results \
-  --site-dir site
+  --results-dir /tmp/cn-news-tts-leaderboard/results \
+  --site-dir /tmp/cn-news-tts-leaderboard/site
 
 shasum -a 256 -c release/v0.1_core_checksums.sha256
+```
+
+复现 public leaderboard 时可以把 `{model_id}` 替换为：
+
+```text
+volcengine_tts
+azure_speech_tts
+google_cloud_tts
+minimax_tts
+aliyun_tts
+mimo
+aws_polly
+```
+
+## 评测新的 TTS 系统
+
+1. 从 `data/dev.jsonl` 或 `data/test_public.jsonl` 读取原始文本。
+2. 每条样本生成一个音频文件，不做外部 text normalization、LLM rewrite、SSML 或手工修正。
+3. 按 [docs/submission.md](docs/submission.md) 准备 `system_card.json`、`manifest.json` 和音频目录。
+4. 用三路 ASR 生成 transcript，或按 [docs/asr_results_format.md](docs/asr_results_format.md) 提供等价 ASR result。
+5. 运行 [scripts/score_submission.py](scripts/score_submission.py) 得到 target-level 分数。
+
+提交样例见 [examples/asr_results/example_model.asr.jsonl](examples/asr_results/example_model.asr.jsonl)。
+
+## 仓库结构
+
+```text
+cn-news-tts-bench/
+  data/                         # dev/public test data and schema
+  docs/                         # task, scoring, submission, release audit
+  examples/                     # minimal ASR result example
+  paper/                        # benchmark preprint note
+  results/
+    leaderboard.csv
+    leaderboard.json
+    asr_transcripts/public_test/
+    asr_results/public_test/
+    per_model_public_test/
+  scripts/                      # validation, scoring, aggregation
+  site/                         # GitHub Pages leaderboard
+  tools/api_config_builder.html # local TTS API config builder
+```
+
+## 引用
+
+论文：
+
+```bibtex
+@misc{luo2026cnnewsttsbench,
+  title = {CN-NewsTTS Bench: A Target-Level Automatic Benchmark for Raw-Input Chinese News Text-to-Speech Pronunciation Accuracy},
+  author = {Luo, Shijun},
+  year = {2026},
+  eprint = {2606.24714},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.CL}
+}
+```
+
+数据：
+
+```text
+CN-NewsTTS Bench v0.1. Zenodo. https://doi.org/10.5281/zenodo.20822327
 ```
 
 ## License
 
 - Code: [MIT](LICENSE)
-- Dataset、固定 ASR transcript、benchmark results 和文档：[CC BY 4.0](LICENSE-DATA.md)
-- 本仓库不包含生成音频；生成音频可能受各 TTS provider 的单独条款约束。
+- Dataset、固定 ASR transcripts、benchmark results、文档和 metadata：[CC BY 4.0](LICENSE-DATA.md)
+- 生成 TTS 音频作为 evaluation artifacts 发布在 Zenodo；复用可能受各 provider/API 条款约束，不应在未做额外权利审查时视为无限制语音训练语料。
