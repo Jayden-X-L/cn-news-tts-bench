@@ -3,6 +3,9 @@
 CN-NewsTTS Bench welcomes reproducible submissions, bug reports, and scoring
 protocol improvements.
 
+For the one-page leaderboard submission flow, start with [SUBMIT.md](SUBMIT.md).
+Submission questions can be sent to xiaobiluo@gmail.com.
+
 ## Submission Rules
 
 The v0.1 main leaderboard is Raw Model Track only:
@@ -13,7 +16,8 @@ The v0.1 main leaderboard is Raw Model Track only:
 - do not use SSML or pronunciation hints
 - do not manually edit test text
 
-See [docs/submission.md](docs/submission.md) for the submission format.
+See [SUBMIT.md](SUBMIT.md) for the end-to-end flow and
+[docs/submission.md](docs/submission.md) for the submission format.
 
 ## Local Checks
 

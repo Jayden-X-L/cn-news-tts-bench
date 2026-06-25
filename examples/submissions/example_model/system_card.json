@@ -1,0 +1,22 @@
+{
+  "model_id": "example_model",
+  "model_name": "Example TTS",
+  "organization": "Example Lab",
+  "open_source": true,
+  "model_url": "https://example.com/model",
+  "provider": "example_provider",
+  "api_or_checkpoint": "example-tts-v1",
+  "voice": "default_zh_news",
+  "language": "zh-CN",
+  "sample_rate": 24000,
+  "audio_format": "wav",
+  "generation_date": "2026-06-25",
+  "submission_date": "2026-06-25",
+  "raw_model_track": true,
+  "external_frontend": false,
+  "llm_rewrite": false,
+  "ssml": false,
+  "manual_text_fix": false,
+  "notes": "Replace this example with the exact model, voice, region, and generation settings used for all benchmark samples."
+}
+

@@ -9,7 +9,7 @@
 [![Leaderboard](https://img.shields.io/badge/Leaderboard-GitHub%20Pages-00A3FF?style=for-the-badge)](https://jayden-x-l.github.io/cn-news-tts-bench/)
 [![Release](https://img.shields.io/badge/Release-v0.1-16A34A?style=for-the-badge)](https://github.com/Jayden-X-L/cn-news-tts-bench/releases/tag/v0.1)
 
-[中文说明](README.md) | [Leaderboard](https://jayden-x-l.github.io/cn-news-tts-bench/) | [Paper](https://arxiv.org/abs/2606.24714) | [Data Archive](https://doi.org/10.5281/zenodo.20822327)
+[中文说明](README.md) | [Leaderboard](https://jayden-x-l.github.io/cn-news-tts-bench/) | [Submit a system](SUBMIT.md) | [Paper](https://arxiv.org/abs/2606.24714) | [Data Archive](https://doi.org/10.5281/zenodo.20822327)
 
 </div>
 
@@ -178,6 +178,9 @@ aws_polly
 
 ## Evaluate a New TTS System
 
+For the one-page submission flow, start with [SUBMIT.md](SUBMIT.md). For
+questions, contact xiaobiluo@gmail.com.
+
 1. Read raw text from `data/dev.jsonl` or `data/test_public.jsonl`.
 2. Generate one audio file per sample without external text normalization, LLM rewriting, SSML, or manual text fixes.
 3. Prepare `system_card.json`, `manifest.json`, and an audio directory following [docs/submission.md](docs/submission.md).
@@ -231,3 +234,7 @@ CN-NewsTTS Bench v0.1. Zenodo. https://doi.org/10.5281/zenodo.20822327
 - Code: [MIT](LICENSE)
 - Dataset, fixed ASR transcripts, benchmark results, documentation, and metadata: [CC BY 4.0](LICENSE-DATA.md)
 - Generated TTS audio is released on Zenodo as evaluation artifacts. Reuse may be subject to provider/API terms and should not be treated as an unrestricted speech-training corpus without separate rights review.
+
+## Contact
+
+Leaderboard submission questions: xiaobiluo@gmail.com.

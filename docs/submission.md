@@ -1,5 +1,8 @@
 # Submission Format
 
+一页式提交流程见 [../SUBMIT.md](../SUBMIT.md)。问题和协作可联系
+xiaobiluo@gmail.com。
+
 每个参评模型提交一个目录：
 
 ```text
@@ -12,6 +15,9 @@ submissions/{model_id}/
 ```
 
 ## system_card.json
+
+可复制示例见
+[../examples/submissions/example_model/system_card.json](../examples/submissions/example_model/system_card.json)。
 
 ```json
 {
@@ -32,6 +38,9 @@ submissions/{model_id}/
 ```
 
 ## manifest.json
+
+可复制示例见
+[../examples/submissions/example_model/manifest.json](../examples/submissions/example_model/manifest.json)。
 
 ```json
 {
@@ -59,4 +68,3 @@ Raw Model Track 不允许：
 - 针对测试集 target 编写特殊替换规则
 
 违反规则的提交应移出主榜，可另列 system track。
-

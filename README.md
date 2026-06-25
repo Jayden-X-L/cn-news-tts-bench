@@ -9,7 +9,7 @@
 [![Leaderboard](https://img.shields.io/badge/Leaderboard-GitHub%20Pages-00A3FF?style=for-the-badge)](https://jayden-x-l.github.io/cn-news-tts-bench/)
 [![Release](https://img.shields.io/badge/Release-v0.1-16A34A?style=for-the-badge)](https://github.com/Jayden-X-L/cn-news-tts-bench/releases/tag/v0.1)
 
-[English README](README.en.md) | [公开榜单](https://jayden-x-l.github.io/cn-news-tts-bench/) | [论文](https://arxiv.org/abs/2606.24714) | [数据归档](https://doi.org/10.5281/zenodo.20822327)
+[English README](README.en.md) | [公开榜单](https://jayden-x-l.github.io/cn-news-tts-bench/) | [提交新系统](SUBMIT.md) | [论文](https://arxiv.org/abs/2606.24714) | [数据归档](https://doi.org/10.5281/zenodo.20822327)
 
 </div>
 
@@ -178,6 +178,9 @@ aws_polly
 
 ## 评测新的 TTS 系统
 
+一页式提交流程见 [SUBMIT.md](SUBMIT.md)。问题和协作可联系
+xiaobiluo@gmail.com。
+
 1. 从 `data/dev.jsonl` 或 `data/test_public.jsonl` 读取原始文本。
 2. 每条样本生成一个音频文件，不做外部 text normalization、LLM rewrite、SSML 或手工修正。
 3. 按 [docs/submission.md](docs/submission.md) 准备 `system_card.json`、`manifest.json` 和音频目录。
@@ -231,3 +234,7 @@ CN-NewsTTS Bench v0.1. Zenodo. https://doi.org/10.5281/zenodo.20822327
 - Code: [MIT](LICENSE)
 - Dataset、固定 ASR transcripts、benchmark results、文档和 metadata：[CC BY 4.0](LICENSE-DATA.md)
 - 生成 TTS 音频作为 evaluation artifacts 发布在 Zenodo；复用可能受各 provider/API 条款约束，不应在未做额外权利审查时视为无限制语音训练语料。
+
+## Contact
+
+Leaderboard submission questions: xiaobiluo@gmail.com.

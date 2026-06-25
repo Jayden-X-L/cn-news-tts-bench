@@ -1,0 +1,19 @@
+{
+  "model_id": "example_model",
+  "dataset": "test_public",
+  "items": [
+    {
+      "id": "test_000001",
+      "audio_url": "https://example.com/cn-news-tts-bench/example_model/test_000001.wav"
+    },
+    {
+      "id": "test_000002",
+      "audio_url": "https://example.com/cn-news-tts-bench/example_model/test_000002.wav"
+    },
+    {
+      "id": "test_000003",
+      "audio_url": "https://example.com/cn-news-tts-bench/example_model/test_000003.wav"
+    }
+  ]
+}
+
