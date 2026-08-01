@@ -20,7 +20,7 @@ import requests
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_CONFIG = ROOT / "tts_api_config.local.json"
+DEFAULT_CONFIG = ROOT / "configs" / "local" / "tts_api_config.local.json"
 DEFAULT_PROMPT = (
     "请逐字转写这段音频内容，只输出转写文本，不要解释。"
     "请尽量保留你实际听到的中文数字、英文缩写、单位和符号读法，"
@@ -226,7 +226,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG)
     parser.add_argument("--manifest", type=Path, required=True)
-    parser.add_argument("--audio-root", type=Path, default=ROOT / "results" / "tts_generation" / "dev" / "audio_wav_24k_mono")
+    parser.add_argument("--audio-root", type=Path, default=ROOT / "artifacts" / "tts_canonical" / "dev")
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--asr-id", default="mimo_v2_5_asr")
     parser.add_argument("--asr-model", default="mimo-v2.5")

@@ -41,11 +41,11 @@ CN-NewsTTS Bench 起源于作者在网易云音乐负责 AI 资讯播客期间�
 
 | Resource | Location | 用途 |
 |---|---|---|
-| Dataset / schema | [data/](data/) | dev/public test 文本、target 标注和数据 schema |
+| Dataset / schema | [data/canonical/](data/canonical/) | dev/public test 文本、target 标注和数据 schema |
 | Scorer / validators | [scripts/](scripts/) | 数据校验、target-level 评分、榜单聚合 |
-| Public ASR transcripts | [results/asr_transcripts/public_test/](results/asr_transcripts/public_test/) | 三路固定 public ASR transcript |
-| Public ASR results | [results/asr_results/public_test/](results/asr_results/public_test/) | 七家 TTS 的合并 ASR 结果 |
-| Leaderboard data | [results/leaderboard.csv](results/leaderboard.csv), [results/leaderboard.json](results/leaderboard.json) | 可机器读取的榜单结果 |
+| Public ASR transcripts | [artifacts/asr_transcripts/public_test/](artifacts/asr_transcripts/public_test/) | 三路固定 public ASR transcript |
+| Public ASR results | [artifacts/asr_merged/public_test/](artifacts/asr_merged/public_test/) | 七家 TTS 的合并 ASR 结果 |
+| Leaderboard data | [artifacts/scores/leaderboard.csv](artifacts/scores/leaderboard.csv), [artifacts/scores/leaderboard.json](artifacts/scores/leaderboard.json) | 可机器读取的榜单结果 |
 | Web leaderboard | [GitHub Pages](https://jayden-x-l.github.io/cn-news-tts-bench/) | 在线公开榜单 |
 | Full archive | [Zenodo DOI](https://doi.org/10.5281/zenodo.20822327) | 音频包、完整 ASR 转写、核心复现包 |
 | Paper | [arXiv:2606.24714](https://arxiv.org/abs/2606.24714) | 方法、实验和局限性说明 |
@@ -104,10 +104,10 @@ Raw Input Product Track 只允许 TTS provider 自身默认处理，不允许外
 核心文件：
 
 ```text
-data/dev.jsonl
-data/test_public.jsonl
-data/dataset_summary.json
-data/schema.json
+data/canonical/dev.jsonl
+data/canonical/test_public.jsonl
+data/canonical/dataset_summary.json
+data/canonical/schema.json
 ```
 
 数据说明见 [docs/dataset_v0.1.md](docs/dataset_v0.1.md)。
@@ -118,9 +118,9 @@ v0.1 使用三路固定 ASR：
 
 | ASR route | Public transcript file |
 |---|---|
-| MiMo API ASR | [results/asr_transcripts/public_test/mimo_v2_5_asr.jsonl](results/asr_transcripts/public_test/mimo_v2_5_asr.jsonl) |
-| SenseVoiceSmall | [results/asr_transcripts/public_test/sensevoice_small.jsonl](results/asr_transcripts/public_test/sensevoice_small.jsonl) |
-| Paraformer-zh | [results/asr_transcripts/public_test/paraformer_zh.jsonl](results/asr_transcripts/public_test/paraformer_zh.jsonl) |
+| MiMo API ASR | [artifacts/asr_transcripts/public_test/mimo_v2_5_asr.jsonl](artifacts/asr_transcripts/public_test/mimo_v2_5_asr.jsonl) |
+| SenseVoiceSmall | [artifacts/asr_transcripts/public_test/sensevoice_small.jsonl](artifacts/asr_transcripts/public_test/sensevoice_small.jsonl) |
+| Paraformer-zh | [artifacts/asr_transcripts/public_test/paraformer_zh.jsonl](artifacts/asr_transcripts/public_test/paraformer_zh.jsonl) |
 
 对每个 target、每条 ASR transcript，评分器匹配 positive readings 和 negative readings，并做三路投票：
 
@@ -147,21 +147,21 @@ Unknown Rate         = unknown / all_auto_evaluable_targets
 git clone https://github.com/Jayden-X-L/cn-news-tts-bench.git
 cd cn-news-tts-bench
 
-python3 scripts/validate_dataset.py data/dev.jsonl
-python3 scripts/validate_dataset.py data/test_public.jsonl
+python3 scripts/validate_dataset.py data/canonical/dev.jsonl
+python3 scripts/validate_dataset.py data/canonical/test_public.jsonl
 
 python3 scripts/score_submission.py \
-  --dataset data/test_public.jsonl \
-  --asr-results results/asr_results/public_test/volcengine_tts.asr.jsonl \
+  --dataset data/canonical/test_public.jsonl \
+  --asr-results artifacts/asr_merged/public_test/volcengine_tts.asr.jsonl \
   --model-id volcengine_tts \
   --output-dir /tmp/cn-news-tts-repro
 
 python3 scripts/aggregate_leaderboard.py \
-  --per-model-dir results/per_model_public_test \
+  --per-model-dir artifacts/scores/public_test \
   --results-dir /tmp/cn-news-tts-leaderboard/results \
   --site-dir /tmp/cn-news-tts-leaderboard/site
 
-shasum -a 256 -c release/v0.1_core_checksums.sha256
+shasum -a 256 -c releases/v0.1/core_checksums.sha256
 ```
 
 复现 public leaderboard 时可以把 `{model_id}` 替换为：
@@ -181,32 +181,42 @@ aws_polly
 一页式提交流程见 [SUBMIT.md](SUBMIT.md)。问题和协作可联系
 xiaobiluo@gmail.com。
 
-1. 从 `data/dev.jsonl` 或 `data/test_public.jsonl` 读取原始文本。
+1. 从 `data/canonical/dev.jsonl` 或 `data/canonical/test_public.jsonl` 读取原始文本。
 2. 每条样本生成一个音频文件，不做外部 text normalization、LLM rewrite、SSML 或手工修正。
 3. 按 [docs/submission.md](docs/submission.md) 准备 `system_card.json`、`manifest.json` 和音频目录。
 4. 用三路 ASR 生成 transcript，或按 [docs/asr_results_format.md](docs/asr_results_format.md) 提供等价 ASR result。
 5. 运行 [scripts/score_submission.py](scripts/score_submission.py) 得到 target-level 分数。
 
-提交样例见 [examples/asr_results/example_model.asr.jsonl](examples/asr_results/example_model.asr.jsonl)。
+提交样例见 [configs/public/examples/asr_results/example_model.asr.jsonl](configs/public/examples/asr_results/example_model.asr.jsonl)。
 
 ## 仓库结构
 
 ```text
 cn-news-tts-bench/
-  data/                         # dev/public test data and schema
-  docs/                         # task, scoring, submission, release audit
-  examples/                     # minimal ASR result example
-  paper/                        # benchmark preprint note
-  results/
-    leaderboard.csv
-    leaderboard.json
-    asr_transcripts/public_test/
-    asr_results/public_test/
-    per_model_public_test/
-  scripts/                      # validation, scoring, aggregation
+  data/
+    canonical/                  # 固定 Benchmark 数据、schema、summary
+    runtime/                    # 本地分片与重试清单（ignored）
+  configs/
+    public/                     # 可公开 schema、样例和站点元数据
+    local/                      # API 凭证（ignored）
+  artifacts/
+    tts_raw/                    # provider 原始音频（ignored）
+    tts_canonical/              # 24 kHz mono WAV（ignored）
+    asr_transcripts/            # 单路 ASR 推理输出
+    asr_merged/                 # 合并后的 scorer 输入
+    scores/                     # 评分明细、投稿目录和榜单
+  papers/                       # arXiv、ISCSLP、ICASSP 各版本
+  releases/v0.1/               # checksum 与 Zenodo 发布审计
+  output/
+    submission/                 # 最终投稿文件
+    outreach/                   # 厂商沟通草稿
+    qa/                         # 日志与渲染检查（ignored）
+  scripts/                      # validation、scoring、aggregation
+  docs/                         # 任务、协议、投稿和目录说明
   site/                         # GitHub Pages leaderboard
-  tools/api_config_builder.html # local TTS API config builder
 ```
+
+完整目录规则见 [docs/directory_layout.md](docs/directory_layout.md)。
 
 ## 引用
 

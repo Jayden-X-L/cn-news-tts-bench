@@ -200,7 +200,7 @@ def main() -> int:
     parser.add_argument("--dataset", type=Path, required=True)
     parser.add_argument("--asr-results", type=Path, required=True)
     parser.add_argument("--model-id", required=True)
-    parser.add_argument("--output-dir", type=Path, default=Path("results/per_model"))
+    parser.add_argument("--output-dir", type=Path, default=Path("artifacts/scores/public_test"))
     args = parser.parse_args()
 
     dataset = load_dataset(args.dataset)
@@ -223,4 +223,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

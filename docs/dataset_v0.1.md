@@ -11,9 +11,9 @@ CN-NewsTTS Bench v0.1 包含两份公开数据：
 ## Files
 
 ```text
-data/dev.jsonl
-data/test_public.jsonl
-data/dataset_summary.json
+data/canonical/dev.jsonl
+data/canonical/test_public.jsonl
+data/canonical/dataset_summary.json
 ```
 
 `dev.sample.jsonl` 仅作为最小文档示例保留，不用于正式 leaderboard。

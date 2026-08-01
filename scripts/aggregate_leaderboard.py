@@ -109,10 +109,10 @@ def build_site_payload(rows: list[dict], metadata: dict) -> dict:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--per-model-dir", type=Path, default=Path("results/per_model"))
-    parser.add_argument("--results-dir", type=Path, default=Path("results"))
+    parser.add_argument("--per-model-dir", type=Path, default=Path("artifacts/scores/public_test"))
+    parser.add_argument("--results-dir", type=Path, default=Path("artifacts/scores"))
     parser.add_argument("--site-dir", type=Path, default=Path("site"))
-    parser.add_argument("--site-metadata", type=Path, default=Path("configs/site_metadata.json"))
+    parser.add_argument("--site-metadata", type=Path, default=Path("configs/public/site_metadata.json"))
     args = parser.parse_args()
 
     summaries = load_summaries(args.per_model_dir)

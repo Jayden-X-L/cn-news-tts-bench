@@ -6,7 +6,7 @@ xiaobiluo@gmail.com。
 每个参评模型提交一个目录：
 
 ```text
-submissions/{model_id}/
+artifacts/scores/submissions/{model_id}/
   system_card.json
   manifest.json
   audio/
@@ -17,7 +17,7 @@ submissions/{model_id}/
 ## system_card.json
 
 可复制示例见
-[../examples/submissions/example_model/system_card.json](../examples/submissions/example_model/system_card.json)。
+[../artifacts/scores/submissions/example_model/system_card.json](../artifacts/scores/submissions/example_model/system_card.json)。
 
 ```json
 {
@@ -40,7 +40,7 @@ submissions/{model_id}/
 ## manifest.json
 
 可复制示例见
-[../examples/submissions/example_model/manifest.json](../examples/submissions/example_model/manifest.json)。
+[../artifacts/scores/submissions/example_model/manifest.json](../artifacts/scores/submissions/example_model/manifest.json)。
 
 ```json
 {

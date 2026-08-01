@@ -5,7 +5,7 @@ Status: arXiv preprint, arXiv:2606.24714 [cs.CL]
 arXiv: [https://arxiv.org/abs/2606.24714](https://arxiv.org/abs/2606.24714)
 PDF: [https://arxiv.org/pdf/2606.24714](https://arxiv.org/pdf/2606.24714)
 Zenodo dataset: [https://doi.org/10.5281/zenodo.20822327](https://doi.org/10.5281/zenodo.20822327)
-Repository PDF copy: [cn_newstts_bench_preprint.pdf](cn_newstts_bench_preprint.pdf)
+Repository PDF copy: [preprint.pdf](preprint.pdf)
 
 ## Abstract
 
@@ -218,7 +218,7 @@ The release repository contains:
 Core checksum verification:
 
 ```bash
-shasum -a 256 -c release/v0.1_core_checksums.sha256
+shasum -a 256 -c releases/v0.1/core_checksums.sha256
 ```
 
 Repository:

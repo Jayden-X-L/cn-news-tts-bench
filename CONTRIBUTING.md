@@ -24,8 +24,8 @@ See [SUBMIT.md](SUBMIT.md) for the end-to-end flow and
 Before opening a pull request, run:
 
 ```bash
-python3 scripts/validate_dataset.py data/dev.jsonl
-python3 scripts/validate_dataset.py data/test_public.jsonl
+python3 scripts/validate_dataset.py data/canonical/dev.jsonl
+python3 scripts/validate_dataset.py data/canonical/test_public.jsonl
 python3 -m py_compile scripts/*.py
 ```
 
@@ -33,8 +33,8 @@ If you update public results, also regenerate:
 
 ```bash
 python3 scripts/aggregate_leaderboard.py \
-  --per-model-dir results/per_model_public_test \
-  --results-dir results \
+  --per-model-dir artifacts/scores/public_test \
+  --results-dir artifacts/scores \
   --site-dir site
 ```
 

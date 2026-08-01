@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Generate raw-text TTS audio for a CN-NewsTTS split.
 
-This runner reads local credentials from tts_api_config.local.json, calls each
-enabled provider with the original dataset text, and writes provider audio plus
-a resumable manifest. Secrets are never written to output files.
+This runner reads local credentials from configs/local/tts_api_config.local.json,
+calls each enabled provider with the original dataset text, and writes raw and
+canonical audio into separate artifact trees plus a resumable manifest. Secrets
+are never written to output files.
 """
 
 from __future__ import annotations
@@ -30,9 +31,10 @@ import requests
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_CONFIG = ROOT / "tts_api_config.local.json"
-DEFAULT_DATASET = ROOT / "data" / "dev.jsonl"
-DEFAULT_OUTPUT_DIR = ROOT / "results" / "tts_generation" / "dev"
+DEFAULT_CONFIG = ROOT / "configs" / "local" / "tts_api_config.local.json"
+DEFAULT_DATASET = ROOT / "data" / "canonical" / "dev.jsonl"
+DEFAULT_RAW_OUTPUT_DIR = ROOT / "artifacts" / "tts_raw" / "dev"
+DEFAULT_CANONICAL_OUTPUT_DIR = ROOT / "artifacts" / "tts_canonical" / "dev"
 
 RETRY_STATUS = {408, 409, 425, 429, 500, 502, 503, 504}
 
@@ -67,6 +69,15 @@ def append_jsonl(path: Path, row: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("a", encoding="utf-8") as f:
         f.write(json.dumps(row, ensure_ascii=False) + "\n")
+
+
+def portable_path(path: Path) -> str:
+    """Prefer a repository-relative path while allowing external output roots."""
+    resolved = path.resolve()
+    try:
+        return str(resolved.relative_to(ROOT))
+    except ValueError:
+        return str(resolved)
 
 
 def safe_name(value: str) -> str:
@@ -648,14 +659,14 @@ def run(args: argparse.Namespace) -> int:
     if not providers:
         raise SystemExit("No providers selected.")
 
-    output_dir: Path = args.output_dir
-    raw_dir = output_dir / "raw_audio"
-    audio_dir = output_dir / "audio_wav_24k_mono"
-    manifest_path = output_dir / "manifest.jsonl"
-    errors_path = output_dir / "errors.jsonl"
-    status_path = output_dir / "status.json"
-    resolved_config_path = output_dir / "resolved_provider_config.redacted.json"
-    output_dir.mkdir(parents=True, exist_ok=True)
+    raw_dir: Path = args.raw_output_dir
+    audio_dir: Path = args.canonical_output_dir
+    manifest_path = raw_dir / "manifest.jsonl"
+    errors_path = raw_dir / "errors.jsonl"
+    status_path = raw_dir / "status.json"
+    resolved_config_path = raw_dir / "resolved_provider_config.redacted.json"
+    raw_dir.mkdir(parents=True, exist_ok=True)
+    audio_dir.mkdir(parents=True, exist_ok=True)
 
     for provider in providers:
         validate_policy(provider)
@@ -666,8 +677,9 @@ def run(args: argparse.Namespace) -> int:
         resolved_config_path,
         {
             "created_at": now_iso(),
-            "dataset": str(args.dataset),
-            "output_dir": str(output_dir),
+            "dataset": portable_path(args.dataset),
+            "raw_output_dir": portable_path(raw_dir),
+            "canonical_output_dir": portable_path(audio_dir),
             "providers": [provider_public_config(p) for p in providers],
             "normalization": {"format": "wav", "sample_rate": 24000, "channels": 1},
         },
@@ -679,7 +691,8 @@ def run(args: argparse.Namespace) -> int:
     failed = 0
     start_time = time.time()
     print(f"dataset={args.dataset} records={len(rows)} providers={len(providers)} total={total}")
-    print(f"output_dir={output_dir}")
+    print(f"raw_output_dir={raw_dir}")
+    print(f"canonical_output_dir={audio_dir}")
 
     for provider in providers:
         pid = provider["provider"]
@@ -700,8 +713,8 @@ def run(args: argparse.Namespace) -> int:
                     "voice": provider.get("voice"),
                     "text_sha256_16": text_hash(row["text"]),
                     "source_text": row["text"],
-                    "raw_audio_path": str(raw_path),
-                    "audio_path": str(audio_path),
+                    "raw_audio_path": portable_path(raw_path),
+                    "audio_path": portable_path(audio_path),
                     "raw_audio_bytes": raw_path.stat().st_size if raw_path.exists() else None,
                     "audio_bytes": audio_path.stat().st_size,
                     "duration_sec": ffprobe_duration(audio_path),
@@ -725,8 +738,8 @@ def run(args: argparse.Namespace) -> int:
                 "voice": provider.get("voice"),
                 "text_sha256_16": text_hash(row["text"]),
                 "source_text": row["text"],
-                "raw_audio_path": str(raw_path),
-                "audio_path": str(audio_path),
+                "raw_audio_path": portable_path(raw_path),
+                "audio_path": portable_path(audio_path),
                 "status": "ok",
                 "error": "",
             }
@@ -735,7 +748,7 @@ def run(args: argparse.Namespace) -> int:
                 raw_ext = returned_ext.lower().lstrip(".")
                 if raw_path.suffix.lower() != f".{raw_ext}":
                     raw_path = raw_path.with_suffix(f".{raw_ext}")
-                    record["raw_audio_path"] = str(raw_path)
+                    record["raw_audio_path"] = portable_path(raw_path)
                 raw_path.parent.mkdir(parents=True, exist_ok=True)
                 raw_path.write_bytes(raw_audio)
                 normalize_audio(raw_path, audio_path, 24000)
@@ -790,8 +803,9 @@ def make_status(
 ) -> dict[str, Any]:
     return {
         "updated_at": now_iso(),
-        "dataset": str(args.dataset),
-        "output_dir": str(args.output_dir),
+        "dataset": portable_path(args.dataset),
+        "raw_output_dir": portable_path(args.raw_output_dir),
+        "canonical_output_dir": portable_path(args.canonical_output_dir),
         "records": len(rows),
         "providers": [p["provider"] for p in providers],
         "total_expected": len(rows) * len(providers),
@@ -808,7 +822,8 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dataset", type=Path, default=DEFAULT_DATASET)
     parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG)
-    parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
+    parser.add_argument("--raw-output-dir", type=Path, default=DEFAULT_RAW_OUTPUT_DIR)
+    parser.add_argument("--canonical-output-dir", type=Path, default=DEFAULT_CANONICAL_OUTPUT_DIR)
     parser.add_argument("--providers", help="Comma-separated provider ids. Default: all enabled providers.")
     parser.add_argument("--limit", type=int, help="Only run the first N dataset records.")
     parser.add_argument("--force", action="store_true", help="Regenerate audio even if normalized wav already exists.")

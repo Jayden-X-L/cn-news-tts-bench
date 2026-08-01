@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/example/cn-news-tts-bench/data/schema.json",
+  "$id": "https://github.com/example/cn-news-tts-bench/data/canonical/schema.json",
   "title": "CN-NewsTTS Bench Record",
   "type": "object",
   "additionalProperties": false,
@@ -108,4 +108,3 @@
     }
   }
 }
-

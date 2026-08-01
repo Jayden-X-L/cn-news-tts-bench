@@ -28,7 +28,7 @@ Not allowed:
 Generate one audio file per input record from:
 
 ```text
-data/test_public.jsonl
+data/canonical/test_public.jsonl
 ```
 
 Use the raw `text` field exactly as provided. Keep the same model, voice, and
@@ -39,7 +39,7 @@ configuration for all records.
 Create:
 
 ```text
-submissions/{model_id}/
+artifacts/scores/submissions/{model_id}/
   system_card.json
   manifest.json
 ```
@@ -47,8 +47,8 @@ submissions/{model_id}/
 Start from the example:
 
 ```text
-examples/submissions/example_model/system_card.json
-examples/submissions/example_model/manifest.json
+artifacts/scores/submissions/example_model/system_card.json
+artifacts/scores/submissions/example_model/manifest.json
 ```
 
 If audio files are large, keep them outside git and use `audio_url` entries in
@@ -61,8 +61,8 @@ Run:
 
 ```bash
 python3 scripts/validate_submission.py \
-  submissions/{model_id} \
-  --dataset data/test_public.jsonl
+  artifacts/scores/submissions/{model_id} \
+  --dataset data/canonical/test_public.jsonl
 ```
 
 If you provide URLs instead of local audio files, validation checks the manifest
@@ -86,18 +86,18 @@ Score your model:
 
 ```bash
 python3 scripts/score_submission.py \
-  --dataset data/test_public.jsonl \
-  --asr-results results/asr_results/public_test/{model_id}.asr.jsonl \
+  --dataset data/canonical/test_public.jsonl \
+  --asr-results artifacts/asr_merged/public_test/{model_id}.asr.jsonl \
   --model-id {model_id} \
-  --output-dir results/per_model_public_test
+  --output-dir artifacts/scores/public_test
 ```
 
 Update leaderboard files:
 
 ```bash
 python3 scripts/aggregate_leaderboard.py \
-  --per-model-dir results/per_model_public_test \
-  --results-dir results \
+  --per-model-dir artifacts/scores/public_test \
+  --results-dir artifacts/scores \
   --site-dir site
 ```
 
@@ -105,23 +105,22 @@ python3 scripts/aggregate_leaderboard.py \
 
 Include:
 
-- `submissions/{model_id}/system_card.json`
-- `submissions/{model_id}/manifest.json` or a clear audio access note
-- `results/asr_results/public_test/{model_id}.asr.jsonl`
-- `results/per_model_public_test/{model_id}/`
-- updated `results/leaderboard.csv`
-- updated `results/leaderboard.json`
+- `artifacts/scores/submissions/{model_id}/system_card.json`
+- `artifacts/scores/submissions/{model_id}/manifest.json` or a clear audio access note
+- `artifacts/asr_merged/public_test/{model_id}.asr.jsonl`
+- `artifacts/scores/public_test/{model_id}/`
+- updated `artifacts/scores/leaderboard.csv`
+- updated `artifacts/scores/leaderboard.json`
 - updated `site/leaderboard.json`
 
 Before opening the PR:
 
 ```bash
-python3 scripts/validate_dataset.py data/dev.jsonl
-python3 scripts/validate_dataset.py data/test_public.jsonl
+python3 scripts/validate_dataset.py data/canonical/dev.jsonl
+python3 scripts/validate_dataset.py data/canonical/test_public.jsonl
 python3 -m py_compile scripts/*.py
 ```
 
 Use the pull request template and describe the model, provider, voice,
 generation date, ASR routes, and whether any audio files are hosted outside the
 repository.
-

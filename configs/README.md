@@ -1,21 +1,30 @@
-# Local API Configs
+# Configs
 
-本目录用于放本地 API 配置文件，例如：
+配置按是否可以公开分成两个目录：
 
 ```text
-tts_api_config.local.json
+configs/
+  public/                         # 可提交和发布
+    site_metadata.json
+    tts_api_config.schema.json
+    tts_api_config.example.json
+    api_config_builder.html
+    examples/
+  local/                          # 本地凭证，Git 忽略
+    .gitignore
+    tts_api_config.local.json
 ```
 
 不要把真实 API key、service account JSON 或 credential 文件提交到 GitHub。
 
 推荐做法：
 
-1. 打开 `tools/api_config_builder.html`
-2. 在本地浏览器里填写 API 信息
-3. 导出 `tts_api_config.local.json`
-4. 放到 `configs/` 目录或其他本地安全目录
+1. 打开 `configs/public/api_config_builder.html`。
+2. 在本地浏览器里填写 API 信息。
+3. 导出 `tts_api_config.local.json`。
+4. 保存为 `configs/local/tts_api_config.local.json`。
 
-`configs/.gitignore` 默认忽略所有本地配置文件。
+`configs/local/.gitignore` 会忽略该目录中的本地配置。
 
 v0.1 首轮默认启用：
 

@@ -25,7 +25,7 @@
         "ssml": false,
         "manual_text_fix": false
       },
-      "notes": "Fill provider-specific fields locally or use tools/api_config_builder.html."
+      "notes": "Fill provider-specific fields locally or use configs/public/api_config_builder.html."
     }
   ]
 }

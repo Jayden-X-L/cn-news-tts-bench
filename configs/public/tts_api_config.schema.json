@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/example/cn-news-tts-bench/configs/tts_api_config.schema.json",
+  "$id": "https://github.com/example/cn-news-tts-bench/configs/public/tts_api_config.schema.json",
   "title": "CN-NewsTTS Bench Local TTS API Config",
   "type": "object",
   "additionalProperties": false,
@@ -111,4 +111,3 @@
     }
   }
 }
-

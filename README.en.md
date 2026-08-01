@@ -41,11 +41,11 @@ These are not rare corner cases. They are meaning-changing pronunciation errors 
 
 | Resource | Location | Purpose |
 |---|---|---|
-| Dataset / schema | [data/](data/) | dev/public test text, target annotations, and schema |
+| Dataset / schema | [data/canonical/](data/canonical/) | dev/public test text, target annotations, and schema |
 | Scorer / validators | [scripts/](scripts/) | dataset validation, target-level scoring, leaderboard aggregation |
-| Public ASR transcripts | [results/asr_transcripts/public_test/](results/asr_transcripts/public_test/) | fixed three-route public ASR transcripts |
-| Public ASR results | [results/asr_results/public_test/](results/asr_results/public_test/) | merged ASR results for the seven TTS systems |
-| Leaderboard data | [results/leaderboard.csv](results/leaderboard.csv), [results/leaderboard.json](results/leaderboard.json) | machine-readable leaderboard results |
+| Public ASR transcripts | [artifacts/asr_transcripts/public_test/](artifacts/asr_transcripts/public_test/) | fixed three-route public ASR transcripts |
+| Public ASR results | [artifacts/asr_merged/public_test/](artifacts/asr_merged/public_test/) | merged ASR results for the seven TTS systems |
+| Leaderboard data | [artifacts/scores/leaderboard.csv](artifacts/scores/leaderboard.csv), [artifacts/scores/leaderboard.json](artifacts/scores/leaderboard.json) | machine-readable leaderboard results |
 | Web leaderboard | [GitHub Pages](https://jayden-x-l.github.io/cn-news-tts-bench/) | public leaderboard page |
 | Full archive | [Zenodo DOI](https://doi.org/10.5281/zenodo.20822327) | audio packages, full ASR transcripts, core reproducibility package |
 | Paper | [arXiv:2606.24714](https://arxiv.org/abs/2606.24714) | method, experiments, and limitations |
@@ -104,10 +104,10 @@ The Raw Input Product Track allows only the TTS provider's default processing. I
 Core files:
 
 ```text
-data/dev.jsonl
-data/test_public.jsonl
-data/dataset_summary.json
-data/schema.json
+data/canonical/dev.jsonl
+data/canonical/test_public.jsonl
+data/canonical/dataset_summary.json
+data/canonical/schema.json
 ```
 
 Dataset details are in [docs/dataset_v0.1.md](docs/dataset_v0.1.md).
@@ -118,9 +118,9 @@ The official v0.1 score uses three fixed ASR routes:
 
 | ASR route | Public transcript file |
 |---|---|
-| MiMo API ASR | [results/asr_transcripts/public_test/mimo_v2_5_asr.jsonl](results/asr_transcripts/public_test/mimo_v2_5_asr.jsonl) |
-| SenseVoiceSmall | [results/asr_transcripts/public_test/sensevoice_small.jsonl](results/asr_transcripts/public_test/sensevoice_small.jsonl) |
-| Paraformer-zh | [results/asr_transcripts/public_test/paraformer_zh.jsonl](results/asr_transcripts/public_test/paraformer_zh.jsonl) |
+| MiMo API ASR | [artifacts/asr_transcripts/public_test/mimo_v2_5_asr.jsonl](artifacts/asr_transcripts/public_test/mimo_v2_5_asr.jsonl) |
+| SenseVoiceSmall | [artifacts/asr_transcripts/public_test/sensevoice_small.jsonl](artifacts/asr_transcripts/public_test/sensevoice_small.jsonl) |
+| Paraformer-zh | [artifacts/asr_transcripts/public_test/paraformer_zh.jsonl](artifacts/asr_transcripts/public_test/paraformer_zh.jsonl) |
 
 For each target and each ASR transcript, the scorer matches target-level positive and negative readings, then applies three-route voting:
 
@@ -147,21 +147,21 @@ See [docs/scoring.md](docs/scoring.md).
 git clone https://github.com/Jayden-X-L/cn-news-tts-bench.git
 cd cn-news-tts-bench
 
-python3 scripts/validate_dataset.py data/dev.jsonl
-python3 scripts/validate_dataset.py data/test_public.jsonl
+python3 scripts/validate_dataset.py data/canonical/dev.jsonl
+python3 scripts/validate_dataset.py data/canonical/test_public.jsonl
 
 python3 scripts/score_submission.py \
-  --dataset data/test_public.jsonl \
-  --asr-results results/asr_results/public_test/volcengine_tts.asr.jsonl \
+  --dataset data/canonical/test_public.jsonl \
+  --asr-results artifacts/asr_merged/public_test/volcengine_tts.asr.jsonl \
   --model-id volcengine_tts \
   --output-dir /tmp/cn-news-tts-repro
 
 python3 scripts/aggregate_leaderboard.py \
-  --per-model-dir results/per_model_public_test \
+  --per-model-dir artifacts/scores/public_test \
   --results-dir /tmp/cn-news-tts-leaderboard/results \
   --site-dir /tmp/cn-news-tts-leaderboard/site
 
-shasum -a 256 -c release/v0.1_core_checksums.sha256
+shasum -a 256 -c releases/v0.1/core_checksums.sha256
 ```
 
 For public leaderboard reproduction, replace `{model_id}` with:
@@ -181,32 +181,42 @@ aws_polly
 For the one-page submission flow, start with [SUBMIT.md](SUBMIT.md). For
 questions, contact xiaobiluo@gmail.com.
 
-1. Read raw text from `data/dev.jsonl` or `data/test_public.jsonl`.
+1. Read raw text from `data/canonical/dev.jsonl` or `data/canonical/test_public.jsonl`.
 2. Generate one audio file per sample without external text normalization, LLM rewriting, SSML, or manual text fixes.
 3. Prepare `system_card.json`, `manifest.json`, and an audio directory following [docs/submission.md](docs/submission.md).
 4. Generate three-route ASR transcripts or provide equivalent ASR results following [docs/asr_results_format.md](docs/asr_results_format.md).
 5. Run [scripts/score_submission.py](scripts/score_submission.py) to obtain target-level scores.
 
-A minimal example is available at [examples/asr_results/example_model.asr.jsonl](examples/asr_results/example_model.asr.jsonl).
+A minimal example is available at [configs/public/examples/asr_results/example_model.asr.jsonl](configs/public/examples/asr_results/example_model.asr.jsonl).
 
 ## Repository Layout
 
 ```text
 cn-news-tts-bench/
-  data/                         # dev/public test data and schema
-  docs/                         # task, scoring, submission, release audit
-  examples/                     # minimal ASR result example
-  paper/                        # benchmark preprint note
-  results/
-    leaderboard.csv
-    leaderboard.json
-    asr_transcripts/public_test/
-    asr_results/public_test/
-    per_model_public_test/
-  scripts/                      # validation, scoring, aggregation
+  data/
+    canonical/                  # fixed benchmark data, schema, and summary
+    runtime/                    # local shards and retry inputs (ignored)
+  configs/
+    public/                     # publishable schemas, examples, and site metadata
+    local/                      # API credentials (ignored)
+  artifacts/
+    tts_raw/                    # provider-returned audio (ignored)
+    tts_canonical/              # 24 kHz mono WAV (ignored)
+    asr_transcripts/            # per-route ASR inference output
+    asr_merged/                 # merged scorer input
+    scores/                     # score details, submissions, and leaderboard
+  papers/                       # arXiv, ISCSLP, and ICASSP versions
+  releases/v0.1/               # checksums and Zenodo release audit
+  output/
+    submission/                 # final submission files
+    outreach/                   # provider outreach drafts
+    qa/                         # logs and rendered QA files (ignored)
+  scripts/                      # validation, scoring, and aggregation
+  docs/                         # task, protocol, submission, and layout docs
   site/                         # GitHub Pages leaderboard
-  tools/api_config_builder.html # local TTS API config builder
 ```
+
+See [docs/directory_layout.md](docs/directory_layout.md) for the complete directory policy.
 
 ## Citation
 

@@ -1,6 +1,0 @@
-*
-!.gitignore
-!README.md
-!tts_api_config.schema.json
-!tts_api_config.example.json
-!site_metadata.json

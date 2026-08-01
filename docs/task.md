@@ -21,8 +21,8 @@ CN-NewsTTS Bench 评估中文新闻裸 TTS 模型的 target-level 读法准确�
 
 v0.1 只定义 Raw Model Track，并使用：
 
-- `data/dev.jsonl`：200 条，开发调试
-- `data/test_public.jsonl`：800 条，公开排行榜
+- `data/canonical/dev.jsonl`：200 条，开发调试
+- `data/canonical/test_public.jsonl`：800 条，公开排行榜
 
 允许：
 

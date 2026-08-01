@@ -14,17 +14,17 @@ jobs:
           python-version: "3.11"
       - name: Validate sample dataset
         run: |
-          python scripts/validate_dataset.py data/dev.jsonl
-          python scripts/validate_dataset.py data/test_public.jsonl
-          python scripts/validate_dataset.py data/dev.sample.jsonl
+          python scripts/validate_dataset.py data/canonical/dev.jsonl
+          python scripts/validate_dataset.py data/canonical/test_public.jsonl
+          python scripts/validate_dataset.py data/canonical/dev.sample.jsonl
       - name: Compile scripts
         run: |
           python -m py_compile scripts/*.py
       - name: Smoke score example
         run: |
           python scripts/score_submission.py \
-            --dataset data/dev.sample.jsonl \
-            --asr-results examples/asr_results/example_model.asr.jsonl \
+            --dataset data/canonical/dev.sample.jsonl \
+            --asr-results configs/public/examples/asr_results/example_model.asr.jsonl \
             --model-id example_model \
             --output-dir /tmp/cn_newstts_ci/per_model
           python scripts/aggregate_leaderboard.py \

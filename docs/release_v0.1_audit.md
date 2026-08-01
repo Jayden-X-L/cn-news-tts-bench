@@ -18,8 +18,8 @@ Public test size:
 Dataset validation passed for:
 
 ```bash
-python3 scripts/validate_dataset.py data/dev.jsonl
-python3 scripts/validate_dataset.py data/test_public.jsonl
+python3 scripts/validate_dataset.py data/canonical/dev.jsonl
+python3 scripts/validate_dataset.py data/canonical/test_public.jsonl
 ```
 
 ## Baseline TTS Systems
@@ -36,10 +36,11 @@ The first public baseline run includes seven product TTS systems:
 | minimax_tts | 800 |
 | volcengine_tts | 800 |
 
-The generated TTS audio was used locally for ASR and scoring. Audio files are not included in the core GitHub release because provider redistribution terms need separate review. The local audio directory is ignored by git:
+The generated TTS audio was used locally for ASR and scoring. Audio files are not included in the core GitHub release because provider redistribution terms need separate review. The local raw and canonical audio directories are ignored by git:
 
 ```text
-results/tts_generation/
+artifacts/tts_raw/
+artifacts/tts_canonical/
 ```
 
 ## ASR Ensemble
@@ -57,14 +58,14 @@ MiMo API ASR was run in five non-overlapping public shards. The raw shard logs c
 Canonical transcript:
 
 ```text
-results/asr_transcripts/public_test/mimo_v2_5_asr.jsonl
+artifacts/asr_transcripts/public_test/mimo_v2_5_asr.jsonl
 ```
 
 The local ASR transcripts are:
 
 ```text
-results/asr_transcripts/public_test/sensevoice_small.jsonl
-results/asr_transcripts/public_test/paraformer_zh.jsonl
+artifacts/asr_transcripts/public_test/sensevoice_small.jsonl
+artifacts/asr_transcripts/public_test/paraformer_zh.jsonl
 ```
 
 Final process audit:
@@ -80,12 +81,12 @@ Public ASR merge command:
 
 ```bash
 python3 scripts/merge_asr_transcripts.py \
-  --dataset data/test_public.jsonl \
+  --dataset data/canonical/test_public.jsonl \
   --transcripts \
-    results/asr_transcripts/public_test/sensevoice_small.jsonl \
-    results/asr_transcripts/public_test/paraformer_zh.jsonl \
-    results/asr_transcripts/public_test/mimo_v2_5_asr.jsonl \
-  --output-dir results/asr_results/public_test \
+    artifacts/asr_transcripts/public_test/sensevoice_small.jsonl \
+    artifacts/asr_transcripts/public_test/paraformer_zh.jsonl \
+    artifacts/asr_transcripts/public_test/mimo_v2_5_asr.jsonl \
+  --output-dir artifacts/asr_merged/public_test \
   --min-asr 3
 ```
 
@@ -118,10 +119,10 @@ Total merged ASR rows: 16800 ok.
 Leaderboard files:
 
 ```text
-results/leaderboard.csv
-results/leaderboard.json
-results/per_model_public_test/leaderboard_public_test.csv
-results/per_model_public_test/leaderboard_public_test.md
+artifacts/scores/leaderboard.csv
+artifacts/scores/leaderboard.json
+artifacts/scores/public_test/leaderboard_public_test.csv
+artifacts/scores/public_test/leaderboard_public_test.md
 site/leaderboard.json
 ```
 
@@ -131,36 +132,37 @@ Score a model:
 
 ```bash
 python3 scripts/score_submission.py \
-  --dataset data/test_public.jsonl \
-  --asr-results results/asr_results/public_test/{model_id}.asr.jsonl \
+  --dataset data/canonical/test_public.jsonl \
+  --asr-results artifacts/asr_merged/public_test/{model_id}.asr.jsonl \
   --model-id {model_id} \
-  --output-dir results/per_model_public_test
+  --output-dir artifacts/scores/public_test
 ```
 
 Aggregate leaderboard:
 
 ```bash
 python3 scripts/aggregate_leaderboard.py \
-  --per-model-dir results/per_model_public_test \
-  --results-dir results \
+  --per-model-dir artifacts/scores/public_test \
+  --results-dir artifacts/scores \
   --site-dir site
 ```
 
 Verify core checksums:
 
 ```bash
-shasum -a 256 -c release/v0.1_core_checksums.sha256
+shasum -a 256 -c releases/v0.1/core_checksums.sha256
 ```
 
 ## Release Hygiene
 
 Do not commit:
 
-- `tts_api_config.local.json`
+- `configs/local/tts_api_config.local.json`
 - API keys or service account files
-- `logs/`
+- `output/qa/logs/`
 - runtime shard manifests
-- generated TTS audio under `results/tts_generation/`
-- raw shard retry files under `results/asr_transcripts/**/*shard*.jsonl`
+- provider-returned audio under `artifacts/tts_raw/`
+- normalized audio under `artifacts/tts_canonical/`
+- raw shard retry files under `artifacts/asr_transcripts/**/*shard*.jsonl`
 
 Tracked release artifacts should be enough to reproduce the public leaderboard from fixed ASR transcripts.

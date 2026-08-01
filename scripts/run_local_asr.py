@@ -145,7 +145,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--asr-id", choices=sorted(ASR_MODELS), required=True)
     parser.add_argument("--manifest", type=Path, required=True)
-    parser.add_argument("--audio-root", type=Path, default=ROOT / "results" / "tts_generation" / "dev" / "audio_wav_24k_mono")
+    parser.add_argument("--audio-root", type=Path, default=ROOT / "artifacts" / "tts_canonical" / "dev")
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--device", default="cuda:0")
     parser.add_argument("--providers", nargs="*", help="Optional TTS provider ids to include.")
