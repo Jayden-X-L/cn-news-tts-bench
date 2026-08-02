@@ -65,9 +65,9 @@ def main() -> int:
             errors.append(f"system_card.json missing {field!r}")
     for flag in ["external_frontend", "llm_rewrite", "ssml", "manual_text_fix"]:
         if card.get(flag) is not False:
-            errors.append(f"Raw Model Track requires {flag}=false")
+            errors.append(f"Raw Input Product Track requires {flag}=false")
     if card.get("raw_model_track") is not True:
-        errors.append("Raw Model Track requires raw_model_track=true")
+        errors.append("Raw Input Product Track requires raw_model_track=true")
     if manifest.get("model_id") != card.get("model_id"):
         errors.append("manifest model_id does not match system_card model_id")
 
@@ -121,4 +121,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

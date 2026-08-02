@@ -58,6 +58,7 @@ The Zenodo v0.1 archive includes:
 | `cn-news-tts-bench-v0.1-asr-transcripts-full.zip` | full dev/public-test ASR transcripts and scoring artifacts |
 | `cn-news-tts-bench-v0.1-audio-dev-wav24k-mono.zip` | 7 TTS systems x 200 dev records = 1,400 wav files |
 | `cn-news-tts-bench-v0.1-audio-public-test-wav24k-mono.zip` | 7 TTS systems x 800 public-test records = 5,600 wav files |
+| `cn-news-tts-bench-v0.1-preprint.pdf` | preprint PDF archived with v0.1 |
 | `SHA256SUMS` | checksums for uploaded Zenodo files |
 
 Canonical audio is normalized to 24 kHz mono wav. Provider-returned raw audio duplicates are not included.
@@ -92,6 +93,8 @@ Each sample is a short Chinese news-style sentence containing one or more pronun
 | `AI` | `AI`, `A I` | `人工智能` |
 
 The Raw Input Product Track allows only the TTS provider's default processing. It does not allow external rule frontends, LLM rewrites, SSML pronunciation hints, or manual edits to benchmark text. Provider-internal normalization is part of the evaluated product behavior.
+
+Terminology note: arXiv v1 calls this the `Raw Model Track`, and submission metadata retains the field `raw_model_track` for compatibility. Both names refer to the same protocol now displayed as the `Raw Input Product Track`.
 
 ## Dataset
 
@@ -205,11 +208,11 @@ cn-news-tts-bench/
     asr_transcripts/            # per-route ASR inference output
     asr_merged/                 # merged scorer input
     scores/                     # score details, submissions, and leaderboard
-  papers/                       # arXiv, ISCSLP, and ICASSP versions
+  papers/                       # public arXiv copy; conference workspaces ignored by default
   releases/v0.1/               # checksums and Zenodo release audit
   output/
-    submission/                 # final submission files
-    outreach/                   # provider outreach drafts
+    submission/                 # final submission files (ignored)
+    outreach/                   # provider outreach drafts (ignored)
     qa/                         # logs and rendered QA files (ignored)
   scripts/                      # validation, scoring, and aggregation
   docs/                         # task, protocol, submission, and layout docs

@@ -6,7 +6,7 @@ This document records the reproducibility status of the first public CN-NewsTTS 
 
 ## Scope
 
-v0.1 evaluates Raw Model Track TTS systems on Chinese news-style pronunciation targets. The benchmark input is raw text only: no external frontend, no LLM rewrite, no SSML, and no manual text fix.
+v0.1 evaluates Raw Input Product Track TTS systems on Chinese news-style pronunciation targets. This is the same protocol called `Raw Model Track` in arXiv v1. The benchmark input is raw text only: no external frontend, no LLM rewrite, no SSML, and no manual text fix.
 
 Public test size:
 
@@ -61,7 +61,7 @@ Canonical transcript:
 artifacts/asr_transcripts/public_test/mimo_v2_5_asr.jsonl
 ```
 
-The local ASR transcripts are:
+The other fixed public ASR transcripts are:
 
 ```text
 artifacts/asr_transcripts/public_test/sensevoice_small.jsonl
@@ -102,7 +102,7 @@ Merge summary:
 | minimax_tts | 800 | 0 | 0 |
 | volcengine_tts | 800 | 0 | 0 |
 
-Total merged ASR rows: 16800 ok.
+Total merged sample rows: 5600. These rows contain 16800 ASR transcript slots, all ok.
 
 ## Public Leaderboard
 
@@ -164,5 +164,7 @@ Do not commit:
 - provider-returned audio under `artifacts/tts_raw/`
 - normalized audio under `artifacts/tts_canonical/`
 - raw shard retry files under `artifacts/asr_transcripts/**/*shard*.jsonl`
+- in-review conference sources and PDFs under `papers/iscslp2026/` or `papers/icassp2027/` (except their tracked README files)
+- local payloads under `output/submission/` and `output/outreach/`
 
 Tracked release artifacts should be enough to reproduce the public leaderboard from fixed ASR transcripts.

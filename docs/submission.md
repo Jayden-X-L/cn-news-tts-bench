@@ -37,6 +37,8 @@ artifacts/scores/submissions/{model_id}/
 }
 ```
 
+`raw_model_track` 是为兼容 arXiv v1 和既有提交保留的字段名，对应当前展示名称 Raw Input Product Track。
+
 ## manifest.json
 
 可复制示例见
@@ -59,7 +61,7 @@ artifacts/scores/submissions/{model_id}/
 
 ## Hard Rules
 
-Raw Model Track 不允许：
+Raw Input Product Track 不允许：
 
 - 外部规则前端
 - LLM 改写

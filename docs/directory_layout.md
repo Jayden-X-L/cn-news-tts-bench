@@ -44,10 +44,11 @@ cn_news_tts_bench/
 | `artifacts/asr_transcripts/` | 单路 ASR 推理输出 | public 固定结果跟踪，dev/shard 忽略 |
 | `artifacts/asr_merged/` | 三路 ASR 合并结果 | public 跟踪，dev 忽略 |
 | `artifacts/scores/` | 评分明细与排行榜 | public 跟踪，dev 忽略 |
-| `papers/` | 各投稿版本源文件 | 按版本管理 |
+| `papers/arxiv/` | 已公开预印本 | 跟踪 |
+| `papers/iscslp2026/`、`papers/icassp2027/` | 会议稿件工作区 | 在审内容忽略，仅跟踪说明文件 |
 | `releases/` | checksum 与发布审计 | 跟踪 |
-| `output/submission/` | 最终上传文件 | 人工确认后决定是否跟踪 |
-| `output/outreach/` | 厂商沟通草稿 | 人工确认后决定是否跟踪 |
+| `output/submission/` | 最终上传文件 | 忽略，本地保存 |
+| `output/outreach/` | 厂商沟通草稿 | 忽略，本地保存 |
 | `output/qa/` | 日志、渲染图和构建中间文件 | 忽略 |
 
 不要在顶层重新创建 `results/`、`paper/`、`release/`、`logs/` 或 `tmp/`；相关程序默认路径已经迁移到以上目录。

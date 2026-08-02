@@ -8,7 +8,9 @@ Submission questions can be sent to xiaobiluo@gmail.com.
 
 ## Submission Rules
 
-The v0.1 main leaderboard is Raw Model Track only:
+The v0.1 main leaderboard uses the Raw Input Product Track. This is the same
+protocol called `Raw Model Track` in arXiv v1 and represented by the legacy
+metadata field `raw_model_track`:
 
 - use the original benchmark text as input
 - do not add an external rules frontend

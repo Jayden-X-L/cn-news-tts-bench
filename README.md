@@ -58,6 +58,7 @@ Zenodo v0.1 归档包含：
 | `cn-news-tts-bench-v0.1-asr-transcripts-full.zip` | dev/public test 完整 ASR 转写与评分产物 |
 | `cn-news-tts-bench-v0.1-audio-dev-wav24k-mono.zip` | 7 家 TTS x 200 dev records = 1,400 wav files |
 | `cn-news-tts-bench-v0.1-audio-public-test-wav24k-mono.zip` | 7 家 TTS x 800 public-test records = 5,600 wav files |
+| `cn-news-tts-bench-v0.1-preprint.pdf` | 与 v0.1 一同归档的预印本 PDF |
 | `SHA256SUMS` | Zenodo 上传文件校验和 |
 
 音频均为 canonical 24 kHz mono wav；provider 返回的原始重复音频不包含在归档中。
@@ -92,6 +93,8 @@ ASR ensemble：MiMo API ASR + SenseVoiceSmall + Paraformer-zh。
 | `AI` | `AI`、`A I` | `人工智能` |
 
 Raw Input Product Track 只允许 TTS provider 自身默认处理，不允许外部规则前端、LLM 改写、SSML pronunciation hint 或人工修改 benchmark 文本。Provider 内部 normalization 视为被测产品行为的一部分。
+
+术语说明：arXiv v1 使用名称 `Raw Model Track`，提交 metadata 也保留字段 `raw_model_track` 以保持兼容；它们与当前展示名称 `Raw Input Product Track` 指向同一套规则。
 
 ## 数据规模
 
@@ -205,11 +208,11 @@ cn-news-tts-bench/
     asr_transcripts/            # 单路 ASR 推理输出
     asr_merged/                 # 合并后的 scorer 输入
     scores/                     # 评分明细、投稿目录和榜单
-  papers/                       # arXiv、ISCSLP、ICASSP 各版本
+  papers/                       # arXiv 公开稿；会议工作区默认 ignored
   releases/v0.1/               # checksum 与 Zenodo 发布审计
   output/
-    submission/                 # 最终投稿文件
-    outreach/                   # 厂商沟通草稿
+    submission/                 # 最终投稿文件（ignored）
+    outreach/                   # 厂商沟通草稿（ignored）
     qa/                         # 日志与渲染检查（ignored）
   scripts/                      # validation、scoring、aggregation
   docs/                         # 任务、协议、投稿和目录说明

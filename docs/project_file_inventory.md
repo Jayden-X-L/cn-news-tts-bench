@@ -1,9 +1,9 @@
 # CN-NewsTTS Bench 项目文件全景梳理
 
-> 更新时间：2026-08-01<br>
-> 仓库位置：`/Users/shijunluo/研究/cn_news_tts_bench`<br>
+> 更新时间：2026-08-02<br>
+> 仓库根目录：`cn_news_tts_bench/`<br>
 > 目录结构说明：[`docs/directory_layout.md`](directory_layout.md)<br>
-> 当前 HEAD：`378d9b1c1529b1370754c6dbe1e5a4d55d026788`
+> 目录重构基线：`5b5540a`（`refactor: reorganize benchmark repository`）
 
 ## 1. 项目性质
 
@@ -71,7 +71,7 @@ cn_news_tts_bench/
 
 ## 3. 当前规模
 
-整个项目约 **4.6 GB**，工作区约 **14,335 个文件**。
+整个项目约 **4.6 GB**，工作区约 **14,300 个文件**。
 
 | 目录 | 约占用 | 说明 |
 |---|---:|---|
@@ -83,12 +83,12 @@ cn_news_tts_bench/
 | `artifacts/scores/` | 3.1 MB | target score、汇总和榜单 |
 | `data/` | 7.0 MB | canonical 数据及本地 runtime shards |
 | `output/` | 4.8 MB | 投稿 PDF、沟通草稿和 QA 材料 |
-| `papers/` | 664 KB | arXiv 与会议稿件 |
+| `papers/` | 约 668 KB | arXiv 与会议稿件 |
 | `scripts/` | 116 KB | 10 个 Python 脚本 |
 | `docs/` | 约 64 KB | 项目说明、协议与审计 |
 | `configs/` | 约 64 KB | public 配置及 ignored local 配置 |
 | `site/` | 60 KB | GitHub Pages 榜单 |
-| `.git/` | 1.4 MB | 正式 Git 对象；旧 checkpoint 大对象已经清理 |
+| `.git/` | 约数 MB | 正式 Git 对象；旧 checkpoint 大对象已经清理 |
 
 ## 4. 数据流
 
@@ -313,6 +313,8 @@ papers/arxiv/preprint.pdf
 - `figures/leaderboard.{pdf,png}`
 - `main.pdf`
 
+在审期间，上述源文件和构建 PDF 只保存在本机并由 Git 忽略；公开仓库只跟踪该目录的 `README.md`。
+
 LaTeX 的 `.aux`、`.bbl`、`.blg`、`.log`、`.out` 已归入 `output/qa/latex/iscslp2026/`。
 
 实际提交文件：
@@ -337,7 +339,7 @@ output/submission/iscslp2026/CN-NewsTTS_Bench_ISCSLP2026_Anonymous.pdf
 | `qa/latex/` | LaTeX 中间文件 | 可重建 |
 | `qa/logs/` | TTS、ASR、scoring 历史日志 | 可选保留 |
 
-`output/qa/` 整体被 Git 忽略。
+`output/submission/`、`output/outreach/` 和 `output/qa/` 均为本地工作区，其内容被 Git 忽略；公开仓库只跟踪 `output/README.md`。
 
 ## 15. `releases/` 与站点
 
@@ -375,10 +377,13 @@ output/submission/iscslp2026/CN-NewsTTS_Bench_ISCSLP2026_Anonymous.pdf
 - dev ASR、dev merged results、dev scores
 - ASR shard 与 backup
 - submission audio
+- 在审会议源文件（会议目录的 `README.md` 除外）
+- `output/submission/`
+- `output/outreach/`
 - `output/qa/`
 - `.DS_Store`、`__pycache__`、日志和 PID。
 
-`.git/` 曾因两个 Codex checkpoint tree 保存旧视频、`node_modules`、Remotion cache 和 ZIP 而达到约 2.7 GB。2026-08-01 清除 checkpoint 引用并运行 Git GC 后降至约 1.4 MB；正式 commit、branch、tag 和工作区文件未改变。
+`.git/` 曾因两个 Codex checkpoint tree 保存旧视频、`node_modules`、Remotion cache 和 ZIP 而达到约 2.7 GB。2026-08-01 清除 checkpoint 引用并运行 Git GC 后一度降至约 1.4 MB；完成目录重构提交后仍只有数 MB，属于正常增长。正式 branch、tag 和项目资产未受影响。
 
 ## 17. 保存优先级
 

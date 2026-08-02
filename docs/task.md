@@ -17,9 +17,11 @@ CN-NewsTTS Bench 评估中文新闻裸 TTS 模型的 target-level 读法准确�
 
 参评系统需要为每条样本生成一段音频。
 
-## Raw Model Track
+## Raw Input Product Track
 
-v0.1 只定义 Raw Model Track，并使用：
+v0.1 只定义 Raw Input Product Track，并使用：
+
+arXiv v1 中的 `Raw Model Track` 以及 metadata 字段 `raw_model_track` 均指同一评测协议；字段名为保持兼容暂不修改。
 
 - `data/canonical/dev.jsonl`：200 条，开发调试
 - `data/canonical/test_public.jsonl`：800 条，公开排行榜
